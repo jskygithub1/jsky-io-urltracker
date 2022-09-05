@@ -10,7 +10,7 @@ const Home: NextPage = () => {
 
     const [data, setData] = useState(null);
     const getData = async () => {
-        const {data} = await axios.get(`http://localhost:3001/qrc?background=ff0000&&color=00ffff&width=55&margin=10`);
+        const {data} = await axios.get(`http://localhost:3001/qrc?background=ff0000&&color=00ffff&width=150&margin=10`);
         debugger;
         setData(data);
         console.log(data);
@@ -32,6 +32,8 @@ const Home: NextPage = () => {
             </Head>
 
             <img src={data}/>
+
+            <h3>Bootstrap</h3>
             <div className="d-flex justify-content-center align-items-center">
                 <button
                     type="button"
