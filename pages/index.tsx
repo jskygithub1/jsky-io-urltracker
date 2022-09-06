@@ -9,11 +9,13 @@ import styles from '../styles/Home.module.css'
 const Home: NextPage = () => {
 
     const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const inputFileRef = React.useRef<HTMLInputElement | null>(null);
+
     const getData = async () => {
         const {data} = await axios.get(`http://localhost:3001/qrc?background=ff0000&&color=00ffff&width=150&margin=10`);
-        debugger;
         setData(data);
-        console.log(data);
+
     };
     useEffect(() => {
         getData();
@@ -23,6 +25,51 @@ const Home: NextPage = () => {
     if (!data) {
         return null;
     }
+
+
+
+    const handleOnClick = async (e: React.MouseEvent<HTMLInputElement>) => {
+
+        /* Prevent form from submitting by default */
+        e.preventDefault();
+
+        /* If file is not selected, then show alert message */
+        if (!inputFileRef.current?.files?.length) {
+            alert('Please, select file you want to upload');
+            return;
+        }
+
+        setIsLoading(true);
+
+        /* Add files to FormData */
+        const formData = new FormData();
+        debugger;
+        Object.values(inputFileRef.current.files).forEach(file => {
+            formData.append('myfile', file);
+        })
+
+        const response = await axios.post( 'http://localhost:3001/uploader', formData )
+
+        /* Send request to our api route */
+        //const response = await fetch('/api/upload', {
+        //    method: 'POST',
+        //    body: formData
+        //});
+
+        /*const body = await response.json() as { status: 'ok' | 'fail', message: string };
+
+        alert(body.message);
+
+        if (body.status === 'ok') {
+            inputFileRef.current.value = '';
+            // Do some stuff on successfully upload
+        } else {
+            // Do some stuff on error
+        }*/
+
+        setIsLoading(false);
+    };
+
     return (
         <div className={styles.container}>
             <Head>j=hello
@@ -32,6 +79,17 @@ const Home: NextPage = () => {
             </Head>
 
             <img src={data}/>
+
+            <form enctype="multipart/form-data">
+                <div>
+                    <input type="file" name="myfile" ref={inputFileRef} multiple />
+                </div>
+                <div>
+                    <input type="submit" value="Upload" disabled={isLoading} onClick={handleOnClick} />
+                    {isLoading && ` Wait, please...`}
+                </div>
+            </form>
+
 
             <h3>Bootstrap</h3>
             <div className="d-flex justify-content-center align-items-center">
