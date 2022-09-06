@@ -48,6 +48,9 @@ const Home: NextPage = () => {
             formData.append('myfile', file);
         })
 
+        formData.append( 'myfield1', 'valllll')
+        formData.append( 'myfield2', 'valllll22222')
+
         const response = await axios.post( 'http://localhost:3001/uploader', formData )
 
         /* Send request to our api route */
@@ -83,6 +86,7 @@ const Home: NextPage = () => {
             <form enctype="multipart/form-data">
                 <div>
                     <input type="file" name="myfile" ref={inputFileRef} multiple />
+                    <input name="myfield" value="myfieldvalue" />
                 </div>
                 <div>
                     <input type="submit" value="Upload" disabled={isLoading} onClick={handleOnClick} />
