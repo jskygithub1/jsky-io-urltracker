@@ -13,7 +13,7 @@ const Home: NextPage = () => {
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
 
     const getData = async () => {
-        const {data} = await axios.get(`http://localhost:3001/qrc?background=ff0000&&color=00ffff&width=150&margin=10`);
+        const {data} = await axios.get(`http://localhost:3001/qrc?background=ff0000&&color=00ffff&width=120&margin=10`);
         setData(data);
 
     };

@@ -13,13 +13,21 @@ jsky.io/payjames
 https://qr.io/dashboard/generator
 
 # TO DO
-File uploader
-Passes to our API server
-Images?  base64encoded or 'raw'
-
-https://towardsdev.com/upload-files-with-nextjs-fetch-api-routes-typescript-8150f9fa2332
 
 
-Once that is done... all 'parts' are in place
+Bootstrap info
+
+https://blog.logrocket.com/handling-bootstrap-integration-next-js/
 
 Overall design
+
+1. QRC list
+1. Web link
+1. SMS
+1. EMAIL
+1. Contact
+1. WIFI connection
+1. Whatsapp message
+
+
+Can add text underneath
