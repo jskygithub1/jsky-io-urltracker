@@ -10,5 +10,6 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
     console.log( req.method);
+    console.log( 'Here...' );
   res.status(200).json({ name: 'asdfasdfsadfasdf' })
 }

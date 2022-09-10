@@ -13,7 +13,8 @@ const Home: NextPage = () => {
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
 
     const getData = async () => {
-        const {data} = await axios.get(`http://localhost:3001/qrc?background=ff0000&&color=00ffff&width=120&margin=10`);
+        const {data} = await axios.get(`/api/v1.0/qrcgen?background=ff0000&&color=00ffff&width=120&margin=10`);
+        //await axios.get(`/api/v1.0/hello2`);
         setData(data);
 
     };
@@ -51,7 +52,7 @@ const Home: NextPage = () => {
         formData.append( 'myfield1', 'valllll')
         formData.append( 'myfield2', 'valllll22222')
 
-        const response = await axios.post( 'http://localhost:3001/uploader', formData )
+        const response = await axios.post( '/api/v1.0/uploader', formData )
 
         /* Send request to our api route */
         //const response = await fetch('/api/upload', {
@@ -81,9 +82,9 @@ const Home: NextPage = () => {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
 
-            <img src={data}/>
+            <Image width={200} height={200} src={data} alt="none" />
 
-            <form enctype="multipart/form-data">
+            <form encType="multipart/form-data">
                 <div>
                     <input type="file" name="myfile" ref={inputFileRef} multiple />
                     <input name="myfield" value="myfieldvalue" />
@@ -109,7 +110,6 @@ const Home: NextPage = () => {
                 <div
                     className="modal fade"
                     id="exampleModal"
-                    tabIndex="-1"
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true"
                 >
@@ -134,7 +134,7 @@ const Home: NextPage = () => {
 
             <main className={styles.main}>
                 <h1 className={styles.title}>
-                    Welcome to <a href="https://nextjs.org">Next.js!"</a>
+                    Welcome to <a href="https://nextjs.org">Next.js!</a>
                 </h1>
 
                 <p className={styles.description}>
