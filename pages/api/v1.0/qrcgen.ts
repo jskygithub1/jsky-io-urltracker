@@ -4,6 +4,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 // @ts-ignore
 import QRCode from 'qrcode';
 
+import { getId } from './utils';
+
 type Data = {
     name: string | Object
 }
@@ -15,6 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         margin: number;
         width: number
     }
+
     const options: optionsIF = {
         color: {
             dark: req.query.color ? `#${req.query.color}` : '#ffffff',
@@ -27,6 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     //options.width=500;
 
     console.log(options);
+
+    console.log( `unsique id is: ${getId () }` );
 
     try {
 

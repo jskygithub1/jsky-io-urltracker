@@ -24,4 +24,26 @@ const getGEOIP = ( req: any ) => {
     return geoIP.lookup(ipAddress);
 }
 
-export { getBrowserMetaData, getIncomingIP, getGEOIP };
+/**
+ * For each digit, get corresponding letter/number from alphabet
+ *
+ * ex: 0 gets first...9 gets tenth etc.. whatever is in the alphabet
+ *
+ * @param str
+ * @returns {string}
+ */
+const getId = () => {
+
+    const iterations = 6;
+    let alphabet = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase();
+    alphabet += '0123456789';
+    alphabet += 'abcdefghijklmnopqrstuvwxyz';
+    let result = '';
+    for ( let n = 0; n < iterations; n++ ) {
+        const number = Math.round( Math.random () * alphabet.length );
+        result += alphabet.substring( number, number + 1 );
+    }
+    return result;
+}
+
+export { getBrowserMetaData, getIncomingIP, getGEOIP, getId };
