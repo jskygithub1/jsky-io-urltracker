@@ -10,12 +10,8 @@ export const config = {
     },
 };
 
-import { Utils } from './utils';
 
 import fs from "fs";
-
-const utils = new Utils ();
-
 
 export default async function handler(req: any, res: any ) {
 

@@ -1,11 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Utils } from './utils';
+
 // @ts-ignore
 import QRCode from 'qrcode';
-import fs from "fs";
-
-const utils = new Utils ();
 
 type Data = {
     name: string | Object
