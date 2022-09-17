@@ -1,5 +1,5 @@
 
-import {getBrowserMetaData, getGEOIP} from './api/v1.0/utils';
+
 
 const Redirector = () => {
 
@@ -11,12 +11,14 @@ const Redirector = () => {
 }
 
 /**
- * If we have a rewsponse object, redirect to the target url
+ * If we have a response object, redirect to the target url
  *
  * @param ctx
  */
 Redirector.getInitialProps = async (ctx: any) => {
 
+    const { getBrowserMetaData, getGEOIP }  = require( './api/v1.0/utils')
+    //import {getBrowserMetaData, getGEOIP} from './api/v1.0/utils';
     const {req} = ctx;
 
     if (ctx.res) {

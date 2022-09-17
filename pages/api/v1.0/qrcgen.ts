@@ -27,11 +27,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         width: req.query.width as unknown as number || 100
     }
 
+    const uniqueId = getId ();
+    console.log( `unique id is: ${ uniqueId }` );
+
+    const sendResponse = ( id: string | any, image: string | any[] ) => {
+
+        res.writeHead(200, {
+            'Content-Type': 'image/png',
+            'Content-Length': image.length,
+            'jskyio-unique-id': uniqueId
+        });
+
+        res.end( image );
+
+    };
+
     //options.width=500;
 
     console.log(options);
 
-    console.log( `unsique id is: ${getId () }` );
 
     try {
 
@@ -47,29 +61,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         let buff = Buffer.from(image, 'base64');
         fs.writeFileSync('image.png', buff);
 
-        const ximage = await loadImage('image.png')
+        const ximage = await loadImage('image.png'); //logo
 
-        // ximage.height = options.width * .3;
-        //  ximage.width = options.width * .3;
-        console.log(ximage.width, ximage.height);
+        console.log( `logo image: ${ximage.width} ${ximage.height}`);
 
-        await QRCode.toCanvas(canvas, 'https://bbc.co,uk/', options);
+        await QRCode.toCanvas(canvas, 'https://bbc.co.uk/', options);
 
-        // image, x, y , width, height
 
         // todo figure our resize dimensions based on qrc size.
         // ex: qrc size = 100
-        // image width = 150*60%
+        // image width = 100*60%
         // image width original = 300
         // new image width = 90
         // therefore resize factor is 300/90 = 3.333
         // calc height = ximhe.height = ximageheight / resizeFactor;
         /////////////////////////////////////////////////////////////////////////////////
         const resizeFactor = ximage.width / (options.width * .25);
-        //ximage.height = ximage.height / resizeFactor;
-        //ximage.width = ximage.width / resizeFactor;
         console.log(resizeFactor, ximage.width, ximage.height);
 
+        // Draw logo into canvas with QRC  Center
         // image, sourcewidth, sourceheight, x, y, destination width, destination height... Use to resize!!!!!
         ctx.drawImage(ximage,
             0,
@@ -84,9 +94,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         // add surrounding text
         // text at bottom
 
-
         const data = canvas.toDataURL();
 
+        sendResponse( 0, data );
+        return;
+
+        // Create new canvas whic his bigger than the original
         const canvasFinal = createCanvas(options.width * 2, options.width * 2)
         const ctxFinal = canvasFinal.getContext('2d')
 
@@ -95,8 +108,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         img.onerror = (err: any) => {
             throw err
         }
-        img.src = data;
 
+        // Load QRC into new Image object -- causes the onload above to execute
+        // which draws it into our new Canvas
+        img.src = data;
 
         console.log(canvasFinal);
         console.log(
@@ -114,11 +129,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         ctxFinal.strokeRect(0, 0, options.width * 2, options.width * 2)
         //console.log( data );
         const dataFinal = canvasFinal.toDataURL();
-        res.writeHead(200, {
-            'Content-Type': 'image/png',
-            'Content-Length': dataFinal.length
-        });
-        res.end(dataFinal);
+
+        sendResponse( null, dataFinal )
+
         //console.log( data );
     } catch (  e: any ) {
         console.log(e);
