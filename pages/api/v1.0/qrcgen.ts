@@ -13,8 +13,13 @@ type Data = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     interface optionsIF {
-        color: Object;
-        margin: number;
+        color?: Object;
+        margin?: number;
+        text?: string | null;
+        textBackground?: string | null;
+        textColor?: string | null;
+        textPointer?: boolean;
+        textPosition?: string | null;
         width: number
     }
 
@@ -23,9 +28,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             dark: req.query.color ? `#${req.query.color}` : '#ffffff',
             light: req.query.background ? `#${req.query.background}` : '#000000',
         },
-        margin: req.query.margin as unknown as number || 4,
-        width: req.query.width as unknown as number || 100
+        margin: parseInt( <string>req.query.margin )  || 4,
+        text: req.query.text as string || null,
+        textBackground: req.query.textBackground as string || null,
+        textColor: req.query.textColor as string || null,
+        textPointer: req.query.textPointer  as string === 'true' ? true : false,
+        width: parseInt( <string>req.query.width ) || 100
     }
+
+    console.log( typeof options.width )
+
+    // extra validation
+    if ( options.width < 100 ) {
+        options.width = 100;
+    }
+
+
+    // @ts-ignore
+    options.width += parseInt( options.margin );
 
     const uniqueId = getId ();
     console.log( `unique id is: ${ uniqueId }` );
@@ -65,6 +85,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         console.log( `logo image: ${ximage.width} ${ximage.height}`);
 
+        /*
+            Generate QRC here
+         */
         await QRCode.toCanvas(canvas, 'https://bbc.co.uk/', options);
 
 
@@ -81,7 +104,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         // Draw logo into canvas with QRC  Center
         // image, sourcewidth, sourceheight, x, y, destination width, destination height... Use to resize!!!!!
-        ctx.drawImage(ximage,
+       /* ctx.drawImage(ximage,
             0,
             0,
             ximage.width, // original
@@ -89,7 +112,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             (options.width - ximage.width / resizeFactor) / 2,  // x position
             options.width / 2 - (ximage.height / resizeFactor / 2), // y positions
             ximage.width / resizeFactor,  // resized width
-            ximage.height / resizeFactor); // resized height
+            ximage.height / resizeFactor); // resized height*/
 
         // add surrounding text
         // text at bottom
@@ -97,6 +120,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const data = canvas.toDataURL();
 
         sendResponse( 0, data );
+
+        ///////////////////////////////////////////
+        // TEMP TEMP
+        //////////////////////////////////////////
         return;
 
         // Create new canvas whic his bigger than the original

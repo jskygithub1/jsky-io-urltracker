@@ -46,7 +46,7 @@ background=ffffff&&color=000000&width=300&margin=10
 3. logo=base64encoded?
 4. text border = solid red 4px etc?
 5. text background = colour
-6. test-pointer = true/false  (Draws tooltip type arrows towards QRC)
+6. text-pointer = true/false  (Draws tooltip type arrows towards QRC)
 7. additional image to draw attention to QRC 
 
 
