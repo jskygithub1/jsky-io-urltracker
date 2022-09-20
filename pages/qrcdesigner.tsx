@@ -37,37 +37,51 @@ const QRCDesigner = () => {
         setGeneratedQRCValue(data);
     }
 
+    /**
+     * Regen on change
+     * @param event
+     */
     const handleBackgroundColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setBackgroundColor(event.target.value);
         setBackgroundColorDisplay(event.target.value.substring( 1 ));
 
     };
 
+    /**
+     * Regen on change
+     * @param event
+     */
     const handleBackgroundColorChangeDisplay = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setBackgroundColor(`#${event.target.value}`);
         setBackgroundColorDisplay(event.target.value);
-        //await generate();
-
     };
 
+    /**
+     * Regen on change
+     * @param event
+     */
     const handleForegroundColorChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setForegroundColor(event.target.value);
         setForegroundColorDisplay(event.target.value.substring( 1 ));
-        //await generate();
-
     };
 
+    /**
+     * Regen on change
+     * @param event
+     */
     const handleForegroundColorChangeDisplay = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setForegroundColor(`#${event.target.value}`);
         setForegroundColorDisplay(event.target.value);
-        //await generate();
-
     };
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
     };
 
+    /**
+     * Regen on change
+     * @param event
+     */
     const handleWidth = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const width = parseInt( event.target.value);
         if ( isNaN( width ) ) {
@@ -204,6 +218,7 @@ const QRCDesigner = () => {
                                                type="text"
                                                id="width"
                                                value={width}/>
+                                            <input  onChange={handleWidth} type="number" value={width} min="100"  step="5"/>
                                         <span className="input-group-text">px</span>
                                             <div className="invalid-feedback">
                                                 Please enter a width between 100 and 999.
