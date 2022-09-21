@@ -17,9 +17,20 @@ const QRCDesigner = () => {
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
     const [name, setName] = useState('');
 
+    const types = [
+        {type: 'URL', icon: 'bi bi-globe', displayText: 'URL', tip: 'URL Link'},
+        {type: 'SMS', icon: 'bi bi-qr-code', displayText: 'Send SMS', tip: 'Send SMS message'},
+        {type: 'eMail', icon: 'bi bi-envelope', displayText: 'Send eMail'},
+        {type: 'event', icon: 'bi bi-calendar-date', displayText: 'Create calendar event'},
+        {type: 'contact', icon: 'bi bi-person-rolodex', displayText: 'Create Contact'},
+        {type: 'wifi', icon: 'bi bi-wifi', displayText: 'WIFI Connection'},
+        {type: 'whatsapp', icon: 'bi bi-whatsapp', displayText: 'Send WhatsApp message'},
+    ]
+
     // @ts-ignore
-    useEffect( () => {
-       generate ().then (() => {});
+    useEffect(() => {
+        generate().then(() => {
+        });
     }, [backgroundColor, foregroundColor, width]);
 
     /**
@@ -28,8 +39,8 @@ const QRCDesigner = () => {
     const generate = async () => {
 
         // strip out leading '#' from colours
-        const bgColor = backgroundColor ? backgroundColor.substring( 1 ) : backgroundColor;
-        const fgColor = foregroundColor ? foregroundColor.substring( 1 ) : foregroundColor;
+        const bgColor = backgroundColor ? backgroundColor.substring(1) : backgroundColor;
+        const fgColor = foregroundColor ? foregroundColor.substring(1) : foregroundColor;
 
         const parms = `?background=${bgColor}&color=${fgColor}&width=${width}&margin=2`;
 
@@ -43,7 +54,7 @@ const QRCDesigner = () => {
      */
     const handleBackgroundColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setBackgroundColor(event.target.value);
-        setBackgroundColorDisplay(event.target.value.substring( 1 ));
+        setBackgroundColorDisplay(event.target.value.substring(1));
 
     };
 
@@ -62,7 +73,7 @@ const QRCDesigner = () => {
      */
     const handleForegroundColorChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setForegroundColor(event.target.value);
-        setForegroundColorDisplay(event.target.value.substring( 1 ));
+        setForegroundColorDisplay(event.target.value.substring(1));
     };
 
     /**
@@ -83,15 +94,15 @@ const QRCDesigner = () => {
      * @param event
      */
     const handleWidth = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const width = parseInt( event.target.value);
-        if ( isNaN( width ) ) {
-            setWidth(100 );
+        const width = parseInt(event.target.value);
+        if (isNaN(width)) {
+            setWidth(100);
             return;
         }
 
         setWidth(width);
 
-        if  ( width < 100 ) {
+        if (width < 100) {
             return;
         }
 
@@ -146,123 +157,132 @@ const QRCDesigner = () => {
 
             <div className="container px-5 bg-light">
                 <div className={"row "}>
-                    <div className={"col-sm-12 col-lg-7 "}>
+                    <div className={"col-sm-12 col-lg-7 mx-auto"}>
+
+                        <div className="card mb-3">
+                            <div className="card-body">
+                                <h5 className="card-title">QRC Type</h5>
+
+                                {types.map(entry => <span className={"px-4 pointer"} title={entry.tip}>
+                                        <strong>
+                                            <i className={entry.icon}></i>
+                                        </strong>
+                                </span>)}
+
+                            </div>
+                        </div>
 
                         <form encType="multipart/form-data">
-                            <div className={"container"}>
 
-                                <div className="card mb-3">
-                                    <div className="card-body">
-                                        <h5 className="card-title">QRC Name</h5>
-                                        <h6 className="card-subtitle mb-2 text-muted">Used to manage your QRC</h6>
-                                        <input onChange={handleNameChange} className="form-control" type="text"
-                                               id="name"/>
+                            <div className="card mb-3">
+                                <div className="card-body">
+                                    <h5 className="card-title">QRC Name</h5>
+                                    <h6 className="card-subtitle mb-2 text-muted">Used to manage your QRC</h6>
+                                    <input onChange={handleNameChange} className="form-control" type="text"
+                                           id="name"/>
 
+                                </div>
+                            </div>
+
+                            <div className="card mb-3">
+                                <div className="card-body">
+                                    <h5 className="card-title">QRC Background Color</h5>
+                                    <h6 className="card-subtitle mb-2 text-muted">Click to choose your background
+                                                                                  color</h6>
+                                    <div className={"col-sm-12 input-group mb-3 " + designerStyles.colorPicker}>
+                                        <input onChange={handleBackgroundColorChange}
+                                               className="form-control "
+                                               type="color"
+                                               id="backgroundColor"
+                                               title={"Click here to choose..."}
+                                               value={backgroundColor}/>
+                                        <span className={"input-group-text"}>or (RGB)</span>
+                                        <input maxLength={6} onChange={handleBackgroundColorChangeDisplay}
+                                               className="form-control"
+                                               type="text"
+                                               id="backgroundColorRGB"
+                                               value={backgroundColorDisplay}/>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className="card mb-3">
-                                    <div className="card-body">
-                                        <h5 className="card-title">QRC Background Color</h5>
-                                        <h6 className="card-subtitle mb-2 text-muted">Click to choose your background
-                                                                                      color</h6>
-                                        <div className={"col-sm-12 input-group mb-3 " + designerStyles.colorPicker}>
-                                            <input onChange={handleBackgroundColorChange}
-                                                   className="form-control "
-                                                   type="color"
-                                                   id="backgroundColor"
-                                                   title={"Click here to choose..."}
-                                                   value={backgroundColor}/>
-                                            <span className={"input-group-text"}>or (RGB)</span>
-                                            <input maxLength={6} onChange={handleBackgroundColorChangeDisplay} className="form-control"
-                                                   type="text"
-                                                   id="backgroundColorRGB"
-                                                   value={backgroundColorDisplay}/>
-                                        </div>
+                            <div className="card mb-3">
+                                <div className="card-body">
+                                    <h5 className="card-title">QRC Foreground Color</h5>
+                                    <h6 className="card-subtitle mb-2 text-muted">Click to choose your foreground
+                                                                                  color</h6>
+                                    <div className={"col-sm-12 input-group mb-3 " + designerStyles.colorPicker}>
+                                        <input onChange={handleForegroundColorChange}
+                                               className="form-control "
+                                               type="color"
+                                               id="foregroundColor"
+                                               title={"Click here to choose..."}
+                                               value={foregroundColor}/>
+                                        <span className={"input-group-text"}>or (RGB)</span>
+                                        <input maxLength={6} onChange={handleForegroundColorChangeDisplay}
+                                               className="form-control"
+                                               type="text"
+                                               id="foregroundColorRGB"
+                                               value={foregroundColorDisplay}/>
                                     </div>
                                 </div>
+                            </div>
 
-
-
-
-
-                                <div className="card mb-3">
-                                    <div className="card-body">
-                                        <h5 className="card-title">QRC Foreground Color</h5>
-                                        <h6 className="card-subtitle mb-2 text-muted">Click to choose your foreground
-                                                                                      color</h6>
-                                        <div className={"col-sm-12 input-group mb-3 " + designerStyles.colorPicker}>
-                                            <input onChange={handleForegroundColorChange}
-                                                   className="form-control "
-                                                   type="color"
-                                                   id="foregroundColor"
-                                                   title={"Click here to choose..."}
-                                                   value={foregroundColor}/>
-                                            <span className={"input-group-text"}>or (RGB)</span>
-                                            <input maxLength={6} onChange={handleForegroundColorChangeDisplay} className="form-control"
-                                                   type="text"
-                                                   id="foregroundColorRGB"
-                                                   value={foregroundColorDisplay}/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="card mb-3">
-                                    <div className="card-body">
-                                        <h5 className="card-title">QRC Width</h5>
-                                        <h6 className="card-subtitle mb-2 text-muted">
-                                            How big will your QRC be? (Minimum is 100px)</h6>
-                                        <div className="input-group">
+                            <div className="card mb-3">
+                                <div className="card-body">
+                                    <h5 className="card-title">QRC Width</h5>
+                                    <h6 className="card-subtitle mb-2 text-muted">
+                                        How big will your QRC be? (Minimum is 100px)</h6>
+                                    <div className="input-group">
                                         <input maxLength={3} onChange={handleWidth}
-                                               className={ width < 100  ? 'is-invalid' : '' + "form-control" }
+                                               className={width < 100 ? 'is-invalid' : '' + "form-control"}
                                                type="text"
                                                id="width"
                                                value={width}/>
-                                            <input  onChange={handleWidth} type="number" value={width} min="100"  step="5"/>
+                                        <input onChange={handleWidth} type="number" value={width} min="100" step="5"/>
                                         <span className="input-group-text">px</span>
-                                            <div className="invalid-feedback">
-                                                Please enter a width between 100 and 999.
-                                            </div>
+                                        <div className="invalid-feedback">
+                                            Please enter a width between 100 and 999.
                                         </div>
-
                                     </div>
-                                </div>
 
-                                <div className="card mb-3">
-                                    <div className="card-body">
-                                        <h5 className="card-title">QRC Margin</h5>
-                                        <h6 className="card-subtitle mb-2 text-muted">
-                                            Margin around </h6>
-                                        <div className="input-group">
-                                            <input maxLength={3} onChange={handleWidth}
-                                                   className={ width < 100  ? 'is-invalid' : '' + "form-control" }
-                                                   type="text"
-                                                   id="width"
-                                                   value={width}/>
-                                            <span className="input-group-text">px</span>
-                                            <div className="invalid-feedback">
-                                                Please enter a width between 100 and 999.
-                                            </div>
+                                </div>
+                            </div>
+
+                            <div className="card mb-3">
+                                <div className="card-body">
+                                    <h5 className="card-title">QRC Margin</h5>
+                                    <h6 className="card-subtitle mb-2 text-muted">
+                                        Margin around </h6>
+                                    <div className="input-group">
+                                        <input maxLength={3} onChange={handleWidth}
+                                               className={width < 100 ? 'is-invalid' : '' + "form-control"}
+                                               type="text"
+                                               id="width"
+                                               value={width}/>
+                                        <span className="input-group-text">px</span>
+                                        <div className="invalid-feedback">
+                                            Please enter a width between 100 and 999.
                                         </div>
-
                                     </div>
+
                                 </div>
+                            </div>
 
-                                <div className="card mb-3">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Adding your logo?</h5>
-                                        <h6 className="card-subtitle mb-2 text-muted">Select your logo image. This will
-                                                                                      be
-                                                                                      placed in the center of your
-                                                                                      QRC</h6>
-                                        <input className="form-control"
-                                               accept=".png, .jpg, .jpeg"
-                                               type="file"
-                                               id="fileLogo"
-                                               name="fileLogo"
-                                               ref={inputFileRef}/>
+                            <div className="card mb-3">
+                                <div className="card-body">
+                                    <h5 className="card-title">Adding your logo?</h5>
+                                    <h6 className="card-subtitle mb-2 text-muted">Select your logo image. This will
+                                                                                  be
+                                                                                  placed in the center of your
+                                                                                  QRC</h6>
+                                    <input className="form-control"
+                                           accept=".png, .jpg, .jpeg"
+                                           type="file"
+                                           id="fileLogo"
+                                           name="fileLogo"
+                                           ref={inputFileRef}/>
 
-                                    </div>
                                 </div>
                             </div>
 
@@ -281,7 +301,7 @@ const QRCDesigner = () => {
                                         <div className=" text-center mb-5">
 
                                             <div>
-                                                <img src={generatedQRC} />
+                                                <img src={generatedQRC}/>
                                             </div>
 
                                         </div>
