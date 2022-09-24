@@ -14,6 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     interface optionsIF {
         color?: Object;
+        data?: string | null;
         margin?: number;
         text?: string | null;
         textBackground?: string | null;
@@ -28,6 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             dark: req.query.color ? `#${req.query.color}` : '#ffffff',
             light: req.query.background ? `#${req.query.background}` : '#000000',
         },
+        data: req.query.data as string || null,
         margin: parseInt( <string>req.query.margin )  || 4,
         text: req.query.text as string || null,
         textBackground: req.query.textBackground as string || null,
@@ -37,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 
     console.log( typeof options.width )
+
 
     // extra validation
     if ( options.width < 100 ) {
@@ -69,6 +72,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     try {
 
+        console.log( options.data );
+        if ( !options.data ) {
+            console.error( 'cannot generate..' );
+            throw new Error( 'No data');
+        }
+
         const {createCanvas, Image, loadImage} = require('canvas')
         // @ts-ignore
         const canvas = createCanvas(options.width * 1.5, options.width * 1.5)
@@ -88,7 +97,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         /*
             Generate QRC here
          */
-        await QRCode.toCanvas(canvas, 'https://bbc.co.uk/', options);
+        await QRCode.toCanvas(canvas, options.data, options);
 
 
         // todo figure our resize dimensions based on qrc size.

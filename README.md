@@ -32,6 +32,14 @@ QRC list
 
 ## Todo
 
+1. npm validate?
+2. Finish components. use validator
+3. 
+3. On save... update   DB
+4. Click to preview...
+
+# Tracker
+
 Options
 
 background=ffffff&&color=000000&width=300&margin=10
