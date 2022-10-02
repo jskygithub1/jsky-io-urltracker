@@ -8,6 +8,7 @@ import QRCComponents from "./components/qrc_designer/qrcComponents";
 
 const QRCDesigner = () => {
 
+    const [allTypes, setAllTypes] = React.useState<any | {}>({});
     const [backgroundColor, setBackgroundColor] = React.useState('#ffffff');
     const [backgroundColorDisplay, setBackgroundColorDisplay] = React.useState('ffffff');
     const [foregroundColor, setForegroundColor] = React.useState('#000000');
@@ -21,8 +22,9 @@ const QRCDesigner = () => {
     const [name, setName] = useState('');
 
     const types = [
-        {type: 'URL', color: '#404080', icon: 'bi bi-globe', displayText: 'URL', tip: 'URL Link'},
-        {type: 'SMS', color: 'blue', icon: 'bi bi-chat-text-fill', displayText: 'Send SMS', tip: 'Send SMS message'},
+        {type: 'url', color: '#404080', icon: 'bi bi-globe', displayText: 'URL', tip: 'URL Link'},
+        {type: 'phone', color: '#8080C0', icon: 'bi bi-telephone-outbound-fill', displayText: 'Phone call', tip: 'Make a phone call'},
+        {type: 'sms', color: 'blue', icon: 'bi bi-chat-text-fill', displayText: 'Send SMS', tip: 'Send SMS message'},
         {
             type: 'whatsapp',
             color: '#00c000',
@@ -66,7 +68,7 @@ const QRCDesigner = () => {
     useEffect(() => {
         generate().then(() => {
         });
-    }, [backgroundColor, foregroundColor, qrcData, width]);
+    }, [backgroundColor, foregroundColor, selectedType, qrcData, width]);
 
     /**
      * Call our API and get QRC!!!!
@@ -77,7 +79,8 @@ const QRCDesigner = () => {
         const bgColor = backgroundColor ? backgroundColor.substring(1) : backgroundColor;
         const fgColor = foregroundColor ? foregroundColor.substring(1) : foregroundColor;
 
-        const parms = `?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${qrcData}`;
+        //const parms = `?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${qrcData}`;
+        const parms = `?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[ selectedType ]}`;
 
         const {data} = await axios.get(`/api/v1.0/qrcgen${parms}`);
         setGeneratedQRCValue(data);
@@ -174,6 +177,7 @@ const QRCDesigner = () => {
     const setQRCDataFromChild = ( data: any ) => {
         console.log( data );
         setQRCData( data );
+        allTypes[ selectedType ] = data;
     };
 
     const setType = ( qrcType: string ) => {
@@ -225,6 +229,7 @@ const QRCDesigner = () => {
                 {selectedType &&
                     <div className={"row  mb-3 "}>
                         <div className={"col-sm-12 col-lg-12 "}>
+                            <small>{generatedQRC}</small>
                             <QRCComponents setData={ setQRCDataFromChild } qrcType={selectedType} />
                         </div>
                     </div>
