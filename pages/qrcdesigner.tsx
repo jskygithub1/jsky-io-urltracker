@@ -80,8 +80,9 @@ const QRCDesigner = () => {
         const fgColor = foregroundColor ? foregroundColor.substring(1) : foregroundColor;
 
         //const parms = `?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${qrcData}`;
-        const parms = `?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[ selectedType ]}`;
 
+        const parms = encodeURI(`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[ selectedType ]}`);
+console.log( parms );
         const {data} = await axios.get(`/api/v1.0/qrcgen${parms}`);
         setGeneratedQRCValue(data);
     }
@@ -175,9 +176,9 @@ const QRCDesigner = () => {
     };
 
     const setQRCDataFromChild = ( data: any ) => {
-        console.log( data );
         setQRCData( data );
         allTypes[ selectedType ] = data;
+        console.log( allTypes );
     };
 
     const setType = ( qrcType: string ) => {
