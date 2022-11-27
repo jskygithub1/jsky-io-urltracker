@@ -230,7 +230,6 @@ console.log( parms );
                 {selectedType &&
                     <div className={"row  mb-3 "}>
                         <div className={"col-sm-12 col-lg-12 "}>
-                            <small>{generatedQRC}</small>
                             <QRCComponents setData={ setQRCDataFromChild } qrcType={selectedType} />
                         </div>
                     </div>

@@ -33,113 +33,143 @@ const QrcComponents = ({setData, qrcType}: Props) => {
     const [emailAddress, setEmailAddress] = React.useState<any | ''>('');
     const [emailMessage, setEmailMessage] = React.useState<any | ''>('');
     const [emailSubject, setEmailSubject] = React.useState<any | ''>('');
-    const [eventStart, setEventStart] = React.useState<any | ''>('');
+    const [eventStartDate, setEventStartDate] = React.useState<any | ''>('');
+    const [eventStartTime, setEventStartTime] = React.useState<any | ''>('');
     const [eventSummary, setEventSummary] = React.useState<any | ''>('');
-    const [eventEnd, setEventEnd] = React.useState<any | ''>('');
+    const [eventEndDate, setEventEndDate] = React.useState<any | ''>('');
+    const [eventEndTime, setEventEndTime] = React.useState<any | ''>('');
     const [phoneNumber, setPhoneNumber] = React.useState<any | ''>('');
     const [smsMessage, setSMSMessage] = React.useState<any | ''>('');
     const [smsNumber, setSMSNumber] = React.useState<any | ''>('');
+    const [ssid, setSSID] = React.useState<any | ''>('');
+    const [ssidPassword, setSSIDPassword] = React.useState<any | ''>('');
+    const [ssidHidden, setSSIDHidden] = React.useState<any | ''>('');
     const [whatsAppMessage, setWhatsAppMessage] = React.useState<any | ''>('');
     const [whatsAppNumber, setWhatsAppNumber] = React.useState<any | ''>('');
     const [url, setURL] = React.useState<any | ''>('');
     const [youTubeUrl, setYouTubeURL] = React.useState<any | ''>('');
     const [qrcElements, {}] = React.useState<any | qrcElement>([]);
 
+    useEffect(() => {
+        if ( !qrcData ) {
+            return;
+        }
+        console.log( qrcData );
+        setData( qrcData );
+    }, [qrcData]);
+
     const saveQRCElement = (element: string, value: string) => {
-        debugger;
         qrcElements[element] = value;
         console.log(qrcElements);
     }
 
+    // start contact
     const saveContact = () => {
         saveQRCData(`BEGIN:VCARD\n`
             + `VERSION:2.1\n`
-            + `FN: ${contactFirstname} ${contactLastName}\n`
-            + `N: ${contactLastName} ${contactFirstname}\n`
-            + `TEL;CELL:${contactPhoneMobile}\n`
-            + `TEL;WORK;VOICE:${contactPhoneBusiness}\n`
-            + `TEL;HOME;VOICE:${contactPhonePersonal}\n`
-            + `EMAIL;HOME;INTERNET:${contactEmailPersonal}\n`
-            + `EMAIL;WORK;INTERNET:${contactEmailBusiness}\n`
-            + `URL:${contactWebSite}\n`
-            + `ADR:;;${contactStreet};${contactCity};${contactPostal};${contactCountry}\n`
-            + `ORG:${contactOrganisation}\n`
+            + `FN: ${qrcElements['contactFirstname']} ${qrcElements['contactLastName']}\n`
+            + `N: ${qrcElements['contactLastName']} ${qrcElements['contactFirstname']} \n`
+            + `TEL;CELL:${qrcElements['contactPhoneMobile']}\n`
+            + `TEL;WORK;VOICE:${qrcElements['contactPhoneBusiness']}\n`
+            + `TEL;HOME;VOICE:${qrcElements['contactPhonePersonal']}\n`
+            + `EMAIL;HOME;INTERNET:${qrcElements['contactEmailPersonal']}\n`
+            + `EMAIL;WORK;INTERNET:${qrcElements['contactEmailBusiness']}\n`
+            + `URL:${qrcElements['contactWebSite']}\n`
+            + `ADR:;;${qrcElements['contactStreet']};${qrcElements['contactCity']};${qrcElements['contactPostal']};${qrcElements['contactCountry']}\n`
+            + `ORG:${qrcElements['contactOrganisation']}\n`
             + `END:VCARD`
         );
 
-       //saveQRCData( `BEGIN:VCARD\nVERSION:4.0\nFN: James Young\nEND:VCARD`);
     }
 
     const saveContactFirstName = (data: string) => {
+        saveQRCElement('contactFirstname', data);
         setContactFirstname(data);
         saveContact();
 
     }
     const saveContactLastName = (data: string) => {
+        saveQRCElement('contactLastName', data);
         setContactLastName(data);
         saveContact();
 
     }
     const saveContactTitle = (data: string) => {
+        saveQRCElement('contactTitle', data);
         setContactTitle(data);
         saveContact();
 
     }
     const saveContactStreet = (data: string) => {
+        saveQRCElement('contactStreet', data);
         setContactStreet(data);
         saveContact();
 
     }
     const saveContactPostal = (data: string) => {
+        saveQRCElement('contactPostal', data);
         setContactPostal(data);
         saveContact();
 
     }
     const saveContactCity = (data: string) => {
+        saveQRCElement('contactCity', data);
         setContactCity(data);
         saveContact();
 
     }
     const saveContactCountry = (data: string) => {
+        saveQRCElement('contactCountry', data);
         setContactCountry(data);
         saveContact();
 
     }
     const saveContactOrganisation = (data: string) => {
+        saveQRCElement('contactOrganisation', data);
         setContactOrganisation(data);
         saveContact();
 
     }
     const saveContactEmailPersonal = (data: string) => {
+        saveQRCElement('contactEmailPersonal', data);
         setContactEmailPersonal(data);
         saveContact();
 
     }
     const saveContactEmailBusiness = (data: string) => {
+        saveQRCElement('contactEmailBusiness', data);
         setContactEmailBusiness(data);
         saveContact();
 
     }
     const saveContactPhonePersonal = (data: string) => {
+        saveQRCElement('contactPhonePersonal', data);
         setContactPhonePersonal(data);
         saveContact();
 
     }
     const saveContactPhoneBusiness = (data: string) => {
+        saveQRCElement('contactPhoneBusiness', data);
         setContactPhoneBusiness(data);
         saveContact();
 
     }
     const saveContactPhoneMobile = (data: string) => {
+        saveQRCElement('contactPhoneMobile', data);
         setContactPhoneMobile(data);
         saveContact();
 
     }
     const saveContactWebSite = (data: string) => {
+        saveQRCElement('contactWebSite', data);
         setContactWebSite(data);
         saveContact();
 
     }
+
+    // end contact
+
+    // start email
 
     const saveEmailAddress = (data: string) => {
         setEmailAddress(data);
@@ -157,25 +187,79 @@ const QrcComponents = ({setData, qrcType}: Props) => {
         setEmailSubject(data);
         saveQRCData(`MATMSG:TO:${emailAddress};SUB:${data};BODY:${emailMessage};`);
     }
+    // end email
 
-    const saveEventEnd = (data: string) => {
-        setEventEnd(data);
-        saveQRCData(`BEGIN:VEVENT\nSUMMARY:${eventSummary}\nDTSTART:${eventStart}\nDTEND:${eventEnd}END:VEVENT`);
+    // start event
+    const saveEvent = () => {
+        saveQRCData(`BEGIN:VEVENT\n`
+        + `SUMMARY:${qrcElements['summary']}\n`
+        + `DTSTART:${qrcElements['startDate']}T${qrcElements['startTime']}00\n`
+        + `DTEND:${qrcElements['endDate']}T${qrcElements['endTime']}00\n`
+        + `END:VEVENT`);
     }
 
-    const saveEventStart = (data: string) => {
-        setEventStart(data);
-        saveQRCData(`BEGIN:VEVENT\nSUMMARY:${eventSummary}\nDTSTART:${eventStart}\nDTEND:${eventEnd}END:VEVENT`);
+    const saveEventEndDate = (data: string) => {
+        const temp  = data.replaceAll('-', '' );
+        saveQRCElement( 'endDate', temp );
+        setEventEndDate(data);
+        saveEvent ();
+    }
+
+    const saveEventEndTime = (data: string) => {
+        const temp  = data.replaceAll(':', '' );
+        saveQRCElement( 'endTime', temp );
+        setEventEndTime(data);
+        saveEvent ();
+    }
+
+    const saveEventStartDate = (data: string) => {
+        const temp  = data.replaceAll('-', '' );
+        saveQRCElement( 'startDate', temp );
+        setEventStartDate(data);
+        saveEvent ();
+    }
+
+    const saveEventStartTime = (data: string) => {
+        const temp  = data.replaceAll(':', '' );
+        saveQRCElement( 'startTime', temp );
+        setEventStartTime(data);
+        saveEvent ();
     }
 
     const saveEventSummary = (data: string) => {
+        saveQRCElement( 'summary', data );
         setEventSummary(data);
-        saveQRCData(`BEGIN:VEVENT\nSUMMARY:${eventSummary}\nDTSTART:${eventStart}\nDTEND:${eventEnd}END:VEVENT`);
+        saveEvent ();
     }
+    // end event
 
     const saveQRCData = (data: string) => {
         setQRCData(data);
         setData(data);
+    }
+
+    const saveSSID = () => {
+        saveQRCData(`WIFI:\n`
+            + `S:${qrcElements['ssid']};T:WPA;P:${qrcElements['ssidPassword']};${qrcElements['ssidHidden'] === 'true' 
+                ? 'H:true;' : ';'}` );
+    }
+
+    const saveSSIDId = (data: string) => {
+        saveQRCElement( 'ssid', data );
+        setSSID(data);
+        saveSSID ();
+    }
+
+    const saveSSIDPassword = (data: string) => {
+        saveQRCElement( 'ssidPassword', data );
+        setSSIDPassword(data);
+        saveSSID ();
+    }
+
+    const saveSSIDHidden = (data: boolean) => {
+        saveQRCElement( 'ssidHidden', data ? 'true' : 'false' );
+        setSSIDHidden(data);
+        saveSSID ();
     }
 
     const saveURL = (data: string) => {
@@ -216,7 +300,6 @@ const QrcComponents = ({setData, qrcType}: Props) => {
     return (
         <div>
 
-            <h1>{qrcType}</h1>
 
             {qrcType.toLowerCase() === 'url' &&
                 <>
@@ -365,18 +448,30 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                                    type="text"
                                    id="eventSummary"
                                    value={eventSummary}/>
-                            <label htmlFor="eventStart">Start</label>
-                            <input maxLength={140} onChange={(event) => saveEventStart(event.target.value)}
-                                   className={designerStyles.width_90 + " mb-3 form-control"}
-                                   type="text"
-                                   id="eventStart"
-                                   value={eventStart}/>
-                            <label htmlFor="eventEnd">End</label>
-                            <input maxLength={140} onChange={(event) => saveEventEnd(event.target.value)}
-                                   className={designerStyles.width_90 + " mb-3 form-control"}
-                                   type="text"
-                                   id="eventEnd"
-                                   value={eventEnd}/>
+                            <label htmlFor="eventStartDate">Start date</label>
+                            <input maxLength={10} onChange={(event) => saveEventStartDate(event.target.value)}
+                                   className={designerStyles.width_20 + " mb-3 form-control pointer"}
+                                   type="date"
+                                   id="eventStartDate"
+                                   value={eventStartDate}/>
+                            <label htmlFor="eventStartTime">Start time</label>
+                            <input maxLength={10} onChange={(event) => saveEventStartTime(event.target.value)}
+                                   className={designerStyles.width_20 + " mb-3 form-control pointer"}
+                                   type="time"
+                                   id="eventStartTime"
+                                   value={eventStartTime}/>
+                            <label htmlFor="eventEndDate">End date</label>
+                            <input maxLength={10} onChange={(event) => saveEventEndDate(event.target.value)}
+                                   className={designerStyles.width_20 + " mb-3 form-control pointer"}
+                                   type="date"
+                                   id="eventEndDate"
+                                   value={eventEndDate}/>
+                            <label htmlFor="eventEndTime">End time</label>
+                            <input maxLength={10} onChange={(event) => saveEventEndTime(event.target.value)}
+                                   className={designerStyles.width_20 + " mb-3 form-control pointer"}
+                                   type="time"
+                                   id="eventEndTime"
+                                   value={eventEndTime}/>
 
                         </div>
                     </div>
@@ -474,6 +569,35 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                                    type="text"
                                    id="contactWebSite"
                                    value={contactWebSite}/>
+
+                        </div>
+                    </div>
+
+                </>
+            }
+            {qrcType.toLowerCase() === 'wifi' &&
+                <>
+                    <div className="card mb-3">
+                        <div className="card-body">
+                            <h5 className="card-title">WIFI connection</h5>
+
+                            <label htmlFor="ssid">SSID</label>
+                            <input maxLength={20} onChange={(event) => saveSSIDId(event.target.value)}
+                                   className={designerStyles.width_90 + " mb-3 form-control"}
+                                   type="text"
+                                   id="ssid"
+                                   value={ssid}/>
+                            <label htmlFor="ssidPassword">Password</label>
+                            <input maxLength={20} onChange={(event) => saveSSIDPassword(event.target.value)}
+                                   className={designerStyles.width_90 + " mb-3 form-control"}
+                                   type="text"
+                                   id="ssidPassword"
+                                   value={ssidPassword}/>
+                            <label htmlFor="ssidHidden">Hidden</label>
+                            <input maxLength={20} onChange={(event) => saveSSIDHidden(event.target.checked)}
+                                   type="checkbox"
+                                   id="ssidHidden"
+                                   value={ssidHidden}/>
 
                         </div>
                     </div>

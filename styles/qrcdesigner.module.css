@@ -4,6 +4,10 @@
 
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .width_10 {
 	width: 10% !important;
 }
