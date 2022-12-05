@@ -44,6 +44,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
     const [ssid, setSSID] = React.useState<any | ''>('');
     const [ssidPassword, setSSIDPassword] = React.useState<any | ''>('');
     const [ssidHidden, setSSIDHidden] = React.useState<any | ''>('');
+    const [text, setText] = React.useState<any | ''>('');
     const [whatsAppMessage, setWhatsAppMessage] = React.useState<any | ''>('');
     const [whatsAppNumber, setWhatsAppNumber] = React.useState<any | ''>('');
     const [url, setURL] = React.useState<any | ''>('');
@@ -262,6 +263,12 @@ const QrcComponents = ({setData, qrcType}: Props) => {
         saveSSID ();
     }
 
+    const saveTextOnly = (data: string) => {
+        setText(data);
+        saveQRCData( data );
+
+    }
+
     const saveURL = (data: string) => {
         setURL(data);
         saveQRCData(`${data}`);
@@ -314,6 +321,26 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                                    id="phoneNumber"
                                    placeholder={"http://"}
                                    value={url}/>
+
+                        </div>
+                    </div>
+
+                </>
+            }
+
+            {qrcType.toLowerCase() === 'text' &&
+                <>
+                    <div className="card mb-3">
+                        <div className="card-body">
+                            <h5 className="card-title">Text</h5>
+
+                            <label htmlFor="text">Enter your text - it could be a message</label>
+                            <input maxLength={80} onChange={(event) => saveTextOnly(event.target.value)}
+                                   className={designerStyles.width_90 + " mb-3 form-control"}
+                                   type="text"
+                                   id="text"
+                                   placeholder={"Any text you wish"}
+                                   value={text}/>
 
                         </div>
                     </div>

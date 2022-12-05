@@ -23,7 +23,14 @@ const QRCDesigner = () => {
 
     const types = [
         {type: 'url', color: '#404080', icon: 'bi bi-globe', displayText: 'URL', tip: 'URL Link'},
-        {type: 'phone', color: '#8080C0', icon: 'bi bi-telephone-outbound-fill', displayText: 'Phone call', tip: 'Make a phone call'},
+        {type: 'text', color: '#404080', icon: 'bi bi-fonts', displayText: 'Text', tip: 'Text'},
+        {
+            type: 'phone',
+            color: '#8080c0',
+            icon: 'bi bi-telephone-outbound-fill',
+            displayText: 'Phone call',
+            tip: 'Make a phone call'
+        },
         {type: 'sms', color: 'blue', icon: 'bi bi-chat-text-fill', displayText: 'Send SMS', tip: 'Send SMS message'},
         {
             type: 'whatsapp',
@@ -81,8 +88,8 @@ const QRCDesigner = () => {
 
         //const parms = `?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${qrcData}`;
 
-        const parms = encodeURI(`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[ selectedType ]}`);
-console.log( parms );
+        const parms = encodeURI(`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[selectedType]}`);
+        console.log(parms);
         const {data} = await axios.get(`/api/v1.0/qrcgen${parms}`);
         setGeneratedQRCValue(data);
     }
@@ -175,14 +182,14 @@ console.log( parms );
         setIsLoading(false);
     };
 
-    const setQRCDataFromChild = ( data: any ) => {
-        setQRCData( data );
-        allTypes[ selectedType ] = data;
-        console.log( allTypes );
+    const setQRCDataFromChild = (data: any) => {
+        setQRCData(data);
+        allTypes[selectedType] = data;
+        console.log(allTypes);
     };
 
-    const setType = ( qrcType: string ) => {
-        setSelectedType( qrcType );
+    const setType = (qrcType: string) => {
+        setSelectedType(qrcType);
     };
 
     return (
@@ -211,9 +218,10 @@ console.log( parms );
                             <div className="card-body">
                                 <h5 className="card-title">QRC Type</h5>
 
-                                {types.map(entry => <span key={entry.type}  className={"px-4 pointer"} title={entry.tip}>
+                                {types.map(entry => <span key={entry.type} className={"px-4 pointer"} title={entry.tip}>
                                         <strong>
-                                            <i onClick={ () => setType( entry.type )} style={{fontSize: '32px', color: entry.color || '#333333'}}
+                                            <i onClick={() => setType(entry.type)}
+                                               style={{fontSize: '32px', color: entry.color || '#333333'}}
                                                className={entry.icon + ' bi--lg'}></i>
                                         </strong>
                                 </span>)}
@@ -222,7 +230,6 @@ console.log( parms );
                         </div>
                     </div>
 
-
                 </div>
             </div>
 
@@ -230,7 +237,7 @@ console.log( parms );
                 {selectedType &&
                     <div className={"row  mb-3 "}>
                         <div className={"col-sm-12 col-lg-12 "}>
-                            <QRCComponents setData={ setQRCDataFromChild } qrcType={selectedType} />
+                            <QRCComponents setData={setQRCDataFromChild} qrcType={selectedType}/>
                         </div>
                     </div>
                 }

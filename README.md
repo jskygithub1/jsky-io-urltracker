@@ -14,6 +14,9 @@ https://qr.io/dashboard/generator
 
 # TO DO
 
+NEXT
+Save...
+
 
 Bootstrap info
 
@@ -28,6 +31,7 @@ QRC list
 1. Contact
 1. WIFI connection
 1. Whatsapp message
+2. Text
 
 
 ## Todo
@@ -37,6 +41,10 @@ QRC list
 3. 
 3. On save... update   DB
 4. Click to preview...
+
+Authenticate... stub for now.
+
+
 
 # Tracker
 
