@@ -22,8 +22,20 @@ const QRCDesigner = () => {
     const [name, setName] = useState('');
 
     const types = [
-        {type: 'url', color: '#404080', icon: 'bi bi-globe', displayText: 'URL', tip: 'URL Link'},
-        {type: 'text', color: '#404080', icon: 'bi bi-fonts', displayText: 'Text', tip: 'Text'},
+        {
+            type: 'url',
+            color: '#404080',
+            icon: 'bi bi-globe',
+            displayText: 'URL',
+            tip: 'URL Link'
+        },
+        {
+            type: 'text',
+            color: '#404080',
+            icon: 'bi bi-fonts',
+            displayText: 'Text',
+            tip: 'Text'
+        },
         {
             type: 'phone',
             color: '#8080c0',
@@ -31,7 +43,13 @@ const QRCDesigner = () => {
             displayText: 'Phone call',
             tip: 'Make a phone call'
         },
-        {type: 'sms', color: 'blue', icon: 'bi bi-chat-text-fill', displayText: 'Send SMS', tip: 'Send SMS message'},
+        {
+            type: 'sms',
+            color: 'blue',
+            icon: 'bi bi-chat-text-fill',
+            displayText: 'Send SMS',
+            tip: 'Send SMS message'
+        },
         {
             type: 'whatsapp',
             color: '#00c000',
@@ -46,7 +64,19 @@ const QRCDesigner = () => {
             displayText: 'Play YouTube video',
             tip: 'Play YouTube video'
         },
-        {type: 'eMail', icon: 'bi bi-envelope', displayText: 'Send eMail', tip: 'Send eMail'},
+        {
+            type: 'linkedin',
+            color: '#0a66c2',
+            icon: 'bi bi-linkedin',
+            displayText: 'LinkedIn profile',
+            tip: 'LinkedIn profile'
+        },
+        {
+            type: 'eMail',
+            icon: 'bi bi-envelope',
+            displayText: 'Send eMail',
+            tip: 'Send eMail'
+        },
         {
             type: 'event',
             color: '#ff8000',
@@ -67,7 +97,7 @@ const QRCDesigner = () => {
             icon: 'bi bi-wifi',
             displayText: 'WIFI Connection',
             tip: 'Create WIFI connection'
-        },
+        }
 
     ]
 

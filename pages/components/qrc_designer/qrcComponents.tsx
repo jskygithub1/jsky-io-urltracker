@@ -38,6 +38,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
     const [eventSummary, setEventSummary] = React.useState<any | ''>('');
     const [eventEndDate, setEventEndDate] = React.useState<any | ''>('');
     const [eventEndTime, setEventEndTime] = React.useState<any | ''>('');
+    const [linkedInProfile, setLinkedInProfile] = React.useState<any | ''>('');
     const [phoneNumber, setPhoneNumber] = React.useState<any | ''>('');
     const [smsMessage, setSMSMessage] = React.useState<any | ''>('');
     const [smsNumber, setSMSNumber] = React.useState<any | ''>('');
@@ -234,6 +235,17 @@ const QrcComponents = ({setData, qrcType}: Props) => {
     }
     // end event
 
+    // LinkedIn
+
+    const saveLinkedInProfileName = (data: string) => {
+        saveQRCElement('linkedInProfile', data);
+        setLinkedInProfile(data);
+        saveQRCData(`https://www.linkedin.com/in/${data}`);
+
+    }
+
+    // end linkedIn
+
     const saveQRCData = (data: string) => {
         setQRCData(data);
         setData(data);
@@ -321,6 +333,26 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                                    id="phoneNumber"
                                    placeholder={"http://"}
                                    value={url}/>
+
+                        </div>
+                    </div>
+
+                </>
+            }
+
+            {qrcType.toLowerCase() === 'linkedin' &&
+                <>
+                    <div className="card mb-3">
+                        <div className="card-body">
+                            <h5 className="card-title">LinkedIn profile</h5>
+
+                            <label htmlFor="smsNumber">LinkedIn page name</label>
+                            <input maxLength={80} onChange={(event) => saveLinkedInProfileName(event.target.value)}
+                                   className={designerStyles.width_90 + " mb-3 form-control"}
+                                   type="text"
+                                   id="linkedInProfile"
+                                   placeholder={"your LinkedIn profile page name"}
+                                   value={linkedInProfile}/>
 
                         </div>
                     </div>
