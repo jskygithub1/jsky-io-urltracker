@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
 import designerStyles from '../../../styles/qrcdesigner.module.css';
 
@@ -316,9 +317,11 @@ const QrcComponents = ({setData, qrcType}: Props) => {
         saveQRCData(`${data}`);
     }
 
+    if ( !qrcType ) {
+        return <></>
+    }
     return (
         <div>
-
 
             {qrcType.toLowerCase() === 'url' &&
                 <>

@@ -47,7 +47,7 @@ const TryIt = () => {
                     <div className="text-center mb-5">
 
                         <div>
-                            <img src={generatedQRC} />
+                            <Image src={generatedQRC} alt={"QRC Image"}/>
                         </div>
 
                     </div>
