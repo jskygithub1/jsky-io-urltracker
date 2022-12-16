@@ -6,14 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next build && next dev",
-    "lint": "next lint",
-      "vercel-build": "cp canvas_lib64/* node_modules/canvas/build/Release/ && npm run build"
+    "lint": "next lint"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.30",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "bootstrap-icons": "^1.9.1",
-    "canvas": "^2.10.1",
     "formidable": "^2.0.1",
     "geoip-lite": "^1.4.6",
     "next": "12.2.5",
