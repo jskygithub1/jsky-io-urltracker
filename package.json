@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next build && next dev",
-    "lint": "next lint"
+    "lint": "next lint",
+      "vercel-build": "cp canvas_lib64/* node_modules/canvas/build/Release/ && npm run build"
   },
   "dependencies": {
     "axios": "^0.27.2",
