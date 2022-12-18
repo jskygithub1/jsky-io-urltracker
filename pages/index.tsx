@@ -32,6 +32,8 @@ const Home: NextPage = () => {
 
             <Contact />
 
+            <div className="mb-5"></div>
+
             <Footer />
         </div>
     )

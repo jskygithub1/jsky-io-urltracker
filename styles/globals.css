@@ -28,8 +28,13 @@ a {
 	font-size: 2rem;
 }
 
+
 .pointer {
 	cursor: pointer;
+}
+
+.width_100 {
+	width: 100%;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -120,8 +120,16 @@ const QRCDesigner = () => {
 
         const parms = encodeURI(`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[selectedType]}`);
         console.log(parms);
-        const {data} = await axios.get(`/api/v1.0/qrcgen${parms}`);
+        const { data } = await axios.get(`/api/v1.0/qrcgen${parms}`);
         setGeneratedQRCValue(data);
+/*try {
+    console.log( 'going..' );
+    const dbResponse = await axios.get(`/api/v1.0/dbio`);
+    console.log( 'cack..' );
+    console.log(dbResponse);
+} catch ( e ) {
+    console.log( e );
+}*/
     }
 
     /**

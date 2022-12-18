@@ -15,6 +15,10 @@ https://qr.io/dashboard/generator
 # TO DO
 
 NEXT
+
+Register
+Save in user and pending requests
+send email
 Save...
 
 
