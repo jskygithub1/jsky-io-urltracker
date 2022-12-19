@@ -22,7 +22,9 @@ export default async function handler(
 
     console.log( req.method);
     console.log( 'DBIO' + new Date() );
-    const results: any = doQuery( 'select * from "public"."user";')
+    const results: any = await doQuery( 'select * from "public"."user";')
+
+    console.log(results );
     // @ts-ignore
     res.status(200).json({ results });
     res.end ();

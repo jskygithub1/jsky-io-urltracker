@@ -4,11 +4,12 @@ import Header                         from './components/header';
 import Footer                         from './components/footer';
 import loginStyles                    from '../styles/login.module.css';
 
-const Template = () => {
+const Register = () => {
 
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
+    const [firstName, setFirstName] = React.useState<any | ''>('');
+    const [lastName, setLastName] = React.useState<any | ''>('');
+    const [password, setPassword] = React.useState<any | ''>('');
+
     return (
         <div>
             <Header/>
@@ -22,6 +23,8 @@ const Template = () => {
                                 <div className="col-6 ">
                                     <div className="form-floating mb-4">
                                         <input type="text" id="firstName" className="form-control"
+                                               onChange={(event) => setFirstName(event.target.value)}
+                                               value={firstName}
                                                placeholder="First name"/>
                                         <label className="form-label" htmlFor="firstName">First name</label>
                                     </div>
@@ -30,6 +33,8 @@ const Template = () => {
                                 <div className="col-6">
                                     <div className="form-floating mb-4">
                                         <input type="text" id="lastName" className="form-control"
+                                               onChange={(event) => setLastName(event.target.value)}
+                                               value={lastName}
                                                placeholder="Last name"/>
                                         <label className="form-label" htmlFor="lastname">Last name</label>
                                     </div>
@@ -40,14 +45,13 @@ const Template = () => {
                                 <div className="col-12">
                                     <div className="form-floating mb-4">
                                         <input type="password" id="password" className="form-control"
+                                               onChange={(event) => setPassword(event.target.value)}
+                                               value={password}
                                                placeholder="Password"/>
                                         <label className="form-label" htmlFor="password">Password</label>
                                     </div>
                                 </div>
-
                             </div>
-
-
 
                             <div className="row mb-4">
                                 <div className="col-12 ">
@@ -86,4 +90,4 @@ const Template = () => {
     );
 };
 
-export default Template;
+export default Register;
