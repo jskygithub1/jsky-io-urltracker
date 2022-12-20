@@ -28,11 +28,11 @@ const ProductInfo = () => {
                             Use an image on your QRC for an even bigger impact -- ex: Your picture that takes your audience to your LiknkedIn profile...
                         </p>
 
-                        <Link href="/linkandqrc">
-                            <a className="text-decoration-none">
+                        <Link className="nav-link" href="/linkandqrc">
+                            <span className="text-decoration-none">
                                 More
                                 <i className="bi bi-arrow-right"></i>
-                            </a>
+                            </span>
                         </Link>
                     </div>
 

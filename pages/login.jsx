@@ -55,8 +55,8 @@ const Template = () => {
 
                             <div className="text-center">
                                 <p>Not a member?
-                                    <Link href="/register">
-                                        <strong><a className="pointer py-2 nav-link">Register here</a></strong>
+                                    <Link className="pointer py-2 nav-link" href="/register">
+                                        <strong><span >Register here</span></strong>
                                     </Link>
                                 </p>
                                 <p>or sign up with:</p>

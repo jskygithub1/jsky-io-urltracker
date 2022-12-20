@@ -22,8 +22,8 @@ export default async function handler(
 
     console.log( process.env );
     console.log( req.method);
-    console.log( 'DBIO: ' + new Date() );
-    const results: any = await doQuery( 'select * from "public"."user";')
+    console.log( 'GETUSER: ' + new Date() );
+    const results: any = await doQuery( 'select * from "public"."user";');
 
     console.log(results );
     // @ts-ignore

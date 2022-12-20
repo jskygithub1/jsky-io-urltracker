@@ -29,15 +29,15 @@ const Header = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link href="/">
-                                    <a className="nav-link">Home</a>
+                                <Link className="nav-link" href="/">
+                                    <span>Home</span>
                                 </Link>
                             </li>
                             <li className="nav-item"><a className="nav-link" href="#!">About</a></li>
                             <li className="nav-item"><a className="nav-link" href="#!">Contact</a></li>
                             <li className="nav-item">
-                                <Link href="/login">
-                                    <a className="nav-link">Login</a>
+                                <Link className="nav-link" href="/login">
+                                    <span >Login</span>
                                 </Link>
                             </li>
                         </ul>

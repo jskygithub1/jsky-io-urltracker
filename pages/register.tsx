@@ -4,12 +4,27 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header                         from './components/header';
 import Footer                         from './components/footer';
 import loginStyles                    from '../styles/login.module.css';
+import axios from "axios";
 
 const Register = () => {
 
+    const [email, setEmail] = React.useState<any | ''>('');
     const [firstName, setFirstName] = React.useState<any | ''>('');
     const [lastName, setLastName] = React.useState<any | ''>('');
     const [password, setPassword] = React.useState<any | ''>('');
+
+    const registerClick = async () => {
+        alert( lastName );
+        // call register API
+        const data = {
+            email,
+            firstName,
+            lastName,
+            password
+        }
+        const response = await axios.post( '/api/v1.0/register', data );
+        console.log( response );
+    }
 
     return (
         <div>
@@ -45,6 +60,18 @@ const Register = () => {
                             <div className={ 'row justify-content-center' }>
                                 <div className="col-12">
                                     <div className="form-floating mb-4">
+                                        <input type="email" id="email" className="form-control"
+                                               onChange={(event) => setEmail(event.target.value)}
+                                               value={email}
+                                               placeholder="eMail address"/>
+                                        <label className="form-label" htmlFor="password">eMail</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={ 'row justify-content-center' }>
+                                <div className="col-12">
+                                    <div className="form-floating mb-4">
                                         <input type="password" id="password" className="form-control"
                                                onChange={(event) => setPassword(event.target.value)}
                                                value={password}
@@ -56,7 +83,9 @@ const Register = () => {
 
                             <div className="row mb-4">
                                 <div className="col-12 ">
-                                    <button type="button" className="width_100 btn btn-primary btn-block mb-4">Register
+                                    <button disabled={!(firstName && lastName && password) }
+                                            onClick={() => registerClick()}
+                                            type="button" className="width_100 btn btn-primary btn-block mb-4">Register
                                     </button>
                                 </div>
                             </div>
