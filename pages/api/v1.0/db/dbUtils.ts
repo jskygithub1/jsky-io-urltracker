@@ -54,7 +54,7 @@ const doQuery =   ( query: String ) => {
 }
 
 const getUser = async ( email: String ) => {
-    return doQuery(`select id from "public"."user" where email = '${email}';`);
+    return doQuery(`select * from "public"."user" where email = '${email}';`);
 }
 
 export { createUser, getUser }

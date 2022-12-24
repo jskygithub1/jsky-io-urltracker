@@ -23,6 +23,11 @@ const Login = () => {
 
         try {
             const response = await axios.post ( '/api/v1.0/signin', data );
+            // check password
+            const password = response.data.response.rows[ 0 ].password;
+            if ( password !== data.password ) {
+                throw new Error( 'e')
+            }
             setStatusMessage( '' );
         } catch ( e ) {
             console.log( e );

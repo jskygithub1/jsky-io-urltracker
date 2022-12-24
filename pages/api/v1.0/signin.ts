@@ -7,7 +7,7 @@ import User from '../models/user';
 
 
 type Data = {
-    message: string
+    response: any
 }
 
 export default async function handler(
@@ -17,14 +17,14 @@ export default async function handler(
 
     logger.log('info', `${req.body.firstName}-${req.body.lastName}-${req.body.email}-${req.body.password}`);
 
-    let results: any = await getUser ( req.body.email );
-    console.log( results );
-    if (results.rowCount > 0) {
+    let response: any = await getUser ( req.body.email );
+    console.log( response );
+    if (response.rowCount > 0) {
         logger.log('error', `This email address already exists.`);
-        res.status(200).json({message: `ok`})
+        res.status(200).json({response})
         return;
     }
 
 
-    res.status(404).json({message: 'Userid/password combination not found'})
+    res.status(404).json({response: 'Userid/password combination not found'})
 }
