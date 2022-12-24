@@ -5,4 +5,4 @@ const showModal = ( id: String, title: String, message: String ) => {
     myModal.show();
 }
 
-export { showModal }
+export { showModal };
