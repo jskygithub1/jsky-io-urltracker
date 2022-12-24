@@ -1,6 +1,10 @@
 import moment from 'moment';
 
-const log = ( level: String, message: String ) => {
+const log = ( level: String, message: any ) => {
+
+    if (typeof message === 'object' ) {
+        message = JSON.stringify ( message );
+    }
 
     const timeStamp = moment().format( 'YYYY-MM-DD HH:mm:ss:SSS');
     const red = '\x1b[31m';

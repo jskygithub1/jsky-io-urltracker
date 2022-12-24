@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header                         from './components/header';
 import Footer                         from './components/footer';
 import loginStyles                    from '../styles/login.module.css';
+import {showModal} from "./helpers/modal";
 import axios from "axios";
 
 const Register = () => {
@@ -14,7 +15,7 @@ const Register = () => {
     const [password, setPassword] = React.useState<any | ''>('');
 
     const registerClick = async () => {
-        alert( lastName );
+
         // call register API
         const data = {
             email,
@@ -22,8 +23,12 @@ const Register = () => {
             lastName,
             password
         }
-        const response = await axios.post( '/api/v1.0/register', data );
-        console.log( response );
+        try {
+            const response = await axios.post('/api/v1.0/register', data);
+            console.log(response);
+        } catch ( e: any ) {
+            showModal('#registerErrorUserExists', 'title', 'message..' )
+        }
     }
 
     return (
@@ -115,6 +120,36 @@ const Register = () => {
             <div className="mb-5"></div>
 
             <Footer/>
+
+            <div
+                className="modal fade"
+                id="registerErrorUserExists"
+                aria-labelledby="registerErrorUserExistsLabel"
+                aria-hidden="true"
+            >
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="registerErrorUserExistsLabel">
+                                Oops!
+                            </h5>
+                            <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div className="modal-body">
+                            The attempt to register has failed because this email address is already in use.
+                        </div>
+
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     );

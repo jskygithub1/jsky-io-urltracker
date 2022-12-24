@@ -1,6 +1,35 @@
+import moment from "moment/moment";
+import logger from "../../../helpers/logger";
+
 const { Pool } = require('pg')
 
 let pool: any;
+
+type UserOpts = {
+    firstName: String,
+    lastName: String,
+    email: String,
+    password: String,
+    createdAt: String
+}
+
+const createUser = async ( user: UserOpts ) => {
+    return doQuery( `insert into "public"."user" 
+        ( 
+            "first_name", 
+            "last_name", 
+            "email", 
+            "password", 
+            "is_confirmed",
+            "created_at" )
+        values( 
+            '${user.firstName}', 
+            '${user.lastName}', 
+            '${user.email}', 
+            '${user.password}',
+            false, 
+            '${moment().format( 'YYYY-MM-DDTH:mm:ss' )}') `);
+}
 
 const doConnect = () => {
     if ( !pool ) {
@@ -20,7 +49,12 @@ const doConnect = () => {
 
 const doQuery =   ( query: String ) => {
     doConnect ();
+    logger.log( 'info', query );
     return pool.query ( query );
 }
 
-export { doQuery }
+const getUser = async ( email: String ) => {
+    return doQuery(`select id from "public"."user" where email = '${email}';`);
+}
+
+export { createUser, getUser }
