@@ -1,13 +1,36 @@
+// @ts-ignore
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header                         from './components/header';
 import Footer                         from './components/footer';
 import loginStyles                    from '../styles/login.module.css';
 import Link                           from 'next/link';
+import axios                          from 'axios';
 
-const Template = () => {
+const Login = () => {
 
-    // @ts-ignore
+    const [email, setEmail] = React.useState<any | ''>('');
+    const [password, setPassword] = React.useState<any | ''>('');
+    const [rememberMe, setRememberMe] = React.useState<Boolean | false>(false);
+    const [statusMessage, setStatusMessage] = React.useState<String | ''>('');
+
+    const signIn = async () => {
+
+        const data = {
+            email,
+            password
+        }
+
+        try {
+            const response = await axios.post ( '/api/v1.0/signin', data );
+            setStatusMessage( '' );
+        } catch ( e ) {
+            console.log( e );
+            setStatusMessage( 'This userid/password combination does not exist.' );
+        }
+
+    };
+
     // @ts-ignore
     // @ts-ignore
     return (
@@ -20,24 +43,41 @@ const Template = () => {
                         <h3>Sign in</h3>
                         <form className="py-2">
                             <div className="form-floating mb-4">
-                                <input type="email" id="form2Example1" className="form-control"
-                                       placeholder="Email address"/>
-                                <label className="form-label" htmlFor="form2Example1">Email address</label>
+                                <input onChange={(event) => setEmail(event.target.value)}
+                                       type="email" id="email" className="form-control"
+                                       placeholder="Email address"
+                                       value={email}
+                                />
+                                <label className="form-label" htmlFor="email">Email address</label>
                             </div>
 
                             <div className="form-floating mb-4">
-                                <input type="password" id="form2Example2" className="form-control"
-                                       placeholder="Password"/>
-                                <label className="form-label" htmlFor="form2Example2">Password</label>
+                                <input onChange={(event) => setPassword(event.target.value)}
+                                       type="password" id="password" className="form-control"
+                                       placeholder="Password"
+                                       value={password}
+                                />
+                                <label className="form-label" htmlFor="password">Password</label>
                             </div>
+
+                            {statusMessage !== '' &&
+                                <>
+                                    <div className="row mb-4">
+                                        <div className="col-12 ">
+                                            <div className="error">{statusMessage}</div>
+                                        </div>
+                                    </div>
+                                </>
+                            }
 
                             <div className="row mb-4">
                                 <div className="col d-flex justify-content-center">
 
                                     <div className="form-check">
-                                        <input className="form-check-input" type="checkbox" value="" id="form2Example31"
-                                               checked/>
-                                        <label className="form-check-label" htmlFor="form2Example31"> Remember
+                                        <input onChange={(event) => setRememberMe(!rememberMe)}
+                                               className="form-check-input" type="checkbox" value="" id="rememberme"
+                                               checked={rememberMe}/>
+                                        <label className="form-check-label" htmlFor="rememberme"> Remember
                                                                                                       me </label>
                                     </div>
                                 </div>
@@ -49,7 +89,7 @@ const Template = () => {
 
                             <div className="row mb-4">
                                 <div className="col-12 ">
-                                <button type="button" className="width_100 btn btn-primary btn-block mb-4">Sign in</button>
+                                <button onClick={() => signIn ()} type="button" className="width_100 btn btn-primary btn-block mb-4">Sign in</button>
                                 </div>
                             </div>
 
@@ -85,8 +125,10 @@ const Template = () => {
 
             <Footer/>
 
+
+
         </div>
     );
 };
 
-export default Template;
+export default Login;
