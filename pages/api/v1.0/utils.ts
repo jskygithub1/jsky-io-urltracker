@@ -10,6 +10,7 @@ const  getBrowserMetaData = ( req: any ) => {
 const getIncomingIP = ( req: any ) => {
     let ipAddress;
 
+
     if (req.headers["x-forwarded-for"]) {
         ipAddress = req.headers["x-forwarded-for"].split(',')[0]
     } else {
@@ -20,7 +21,8 @@ const getIncomingIP = ( req: any ) => {
 }
 
 const getGEOIP = ( req: any ) => {
-    const ipAddress = '80.192.115.76'; // getIncomingIP( req );
+    const ipAddress = getIncomingIP( req );
+    console.log( ipAddress );
     return geoIP.lookup(ipAddress);
 }
 
