@@ -89,7 +89,7 @@ const getUserByRegCode = async ( regCode: String ) => {
     return populateUser( response );
 }
 
-const populateUser = ( response => {
+const populateUser = ( response: any => {
     const data = response.rows[ 0 ];
     User.confirmationHash = data.confirmation_hash;
     User.createdAt = data.created_at;
