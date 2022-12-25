@@ -3,7 +3,7 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 
 import { createUser, getUser } from "./db/dbUtils";
 import logger from '../../../helpers/logger';
-import User from '../models/user';
+
 
 
 type Data = {
@@ -18,9 +18,10 @@ export default async function handler(
     logger.log('info', `${req.body.firstName}-${req.body.lastName}-${req.body.email}-${req.body.password}`);
 
     let response: any = await getUser ( req.body.email );
-    console.log( response );
-    if (response.rowCount > 0) {
-        logger.log('error', `This email address already exists.`);
+    console.log( req.body.password );
+    if (response && ( req.body.password === response.password )) {
+        logger.log('info', `Logged in`);
+        logger.log( 'info', response );
         res.status(200).json({response})
         return;
     }

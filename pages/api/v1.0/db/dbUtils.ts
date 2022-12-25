@@ -1,21 +1,24 @@
 import moment from "moment/moment";
 import logger from "../../../../helpers/logger";
+import User from '../../models/user';
 
 const { Pool } = require('pg')
 
 let pool: any;
 
 type UserOpts = {
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String,
-    createdAt: String
+    confirmationHash: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    createdAt: string
 }
 
 const createUser = async ( user: UserOpts ) => {
     return doQuery( `insert into "public"."user" 
         ( 
+            "confirmation_hash",
             "first_name", 
             "last_name", 
             "email", 
@@ -23,6 +26,7 @@ const createUser = async ( user: UserOpts ) => {
             "is_confirmed",
             "created_at" )
         values( 
+            '${user.confirmationHash}', 
             '${user.firstName}', 
             '${user.lastName}', 
             '${user.email}', 
@@ -33,7 +37,6 @@ const createUser = async ( user: UserOpts ) => {
 
 const doConnect = () => {
     if ( !pool ) {
-        console.log( process.env.POSTGRES_PWD );
         pool = new Pool({
             database: process.env.POSTGRES_DB,
             host: process.env.POSTGRES_HOST,
@@ -54,7 +57,48 @@ const doQuery =   ( query: String ) => {
 }
 
 const getUser = async ( email: String ) => {
-    return doQuery(`select * from "public"."user" where email = '${email}';`);
+    const response = await doQuery(`select * from "public"."user" where email = '${email}';`);
+
+    /*
+        {
+      id: 1,
+      first_name: 'James',
+      last_name: 'young',
+      email: 'jamesskyoung@outlook.com',
+      password: 'password',
+      is_confirmed: false,
+      created_at: 2022-12-23T16:33:01.000Z,
+      confirmation_hash: null
+    }
+
+     */
+    if ( response.rows.length === 0 ) {
+        return null;
+    }
+    return populateUser( response );
+
+    return User;
 }
 
-export { createUser, getUser }
+const getUserByRegCode = async ( regCode: String ) => {
+    const response = await doQuery(`select * from "public"."user" where confirmation_hash = '${regCode}';`);
+
+    if ( response.rows.length === 0 ) {
+        return null;
+    }
+    return populateUser( response );
+}
+
+const populateUser = ( response => {
+    const data = response.rows[ 0 ];
+    User.confirmationHash = data.confirmation_hash;
+    User.createdAt = data.created_at;
+    User.email = data.email;
+    User.firstName = data.first_name;
+    User.lastName = data.last_name;
+    User.password = data.password;
+
+    return User;
+})
+
+export { createUser, doQuery, getUser, getUserByRegCode }

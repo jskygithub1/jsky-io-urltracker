@@ -5,11 +5,13 @@ import { createUser, getUser } from "./db/dbUtils";
 import logger from '../../../helpers/logger';
 import moment from 'moment';
 import User from '../models/user';
+import { getId } from './utils';
 
 
 type Data = {
     message: string
 }
+
 
 export default async function handler(
     req: NextApiRequest,
@@ -19,7 +21,7 @@ export default async function handler(
     logger.log('info', `${req.body.firstName}-${req.body.lastName}-${req.body.email}-${req.body.password}`);
 
     let results: any = await getUser ( req.body.email );
-    if (results.rowCount > 0) {
+    if (results) {
         logger.log('error', `This email address already exists.`);
         res.status(409).json({message: `This email address already exists.`})
         return;
@@ -27,6 +29,7 @@ export default async function handler(
 
     // create this user
 
+    User.confirmationHash = getId ();
     User.firstName = req.body.firstName;
     User.lastName= req.body.lastName;
     User.email = req.body.email;
