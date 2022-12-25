@@ -11,8 +11,8 @@ const Login = () => {
 
     const [email, setEmail] = React.useState<any | ''>('');
     const [password, setPassword] = React.useState<any | ''>('');
-    const [rememberMe, setRememberMe] = React.useState<Boolean | false>(false);
-    const [statusMessage, setStatusMessage] = React.useState<String | ''>('');
+    const [rememberMe, setRememberMe] = React.useState<boolean | false>(false);
+    const [statusMessage, setStatusMessage] = React.useState<string | ''>('');
 
     const signIn = async () => {
 
