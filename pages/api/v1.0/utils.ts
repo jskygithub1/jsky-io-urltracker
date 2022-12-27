@@ -22,7 +22,6 @@ const getIncomingIP = ( req: any ) => {
 
 const getGEOIP = ( req: any ) => {
     const ipAddress = getIncomingIP( req );
-    console.log( ipAddress );
     return geoIP.lookup(ipAddress);
 }
 

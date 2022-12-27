@@ -4,6 +4,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 import axios from "axios";
 import designerStyles from '../styles/qrcdesigner.module.css';
+import getId from '../helpers/getId';
 import QRCComponents from "./components/qrc_designer/qrcComponents";
 
 const QRCDesigner = () => {
@@ -16,6 +17,7 @@ const QRCDesigner = () => {
     const [generatedQRC, setGeneratedQRCValue] = useState(null);
     const [isLoading, setIsLoading] = React.useState(false);
     const [qrcData, setQRCData] = React.useState<any | null>(null);
+    const [qrcId, setQRCId] = React.useState<any | null>(getId.getId( 8 ));
     const [selectedType, setSelectedType] = React.useState<any | null>(null);
     const [width, setWidth] = React.useState(100);
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
@@ -105,7 +107,7 @@ const QRCDesigner = () => {
     useEffect(() => {
         generate().then(() => {
         });
-    }, [backgroundColor, foregroundColor, selectedType, qrcData, width]);
+    }, [backgroundColor, foregroundColor, name, selectedType, qrcData, width]);
 
     /**
      * Call our API and get QRC!!!!
@@ -120,16 +122,10 @@ const QRCDesigner = () => {
 
         const parms = encodeURI(`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[selectedType]}`);
         console.log(parms);
+        console.log( '----------- ')
         const { data } = await axios.get(`/api/v1.0/qrcgen${parms}`);
         setGeneratedQRCValue(data);
-/*try {
-    console.log( 'going..' );
-    const dbResponse = await axios.get(`/api/v1.0/dbio`);
-    console.log( 'cack..' );
-    console.log(dbResponse);
-} catch ( e ) {
-    console.log( e );
-}*/
+
     }
 
     /**
@@ -218,6 +214,22 @@ const QRCDesigner = () => {
         const response = await axios.post('/api/v1.0/uploader', formData)
 
         setIsLoading(false);
+    };
+
+    const saveQRC = async () => {
+        alert( 'save ' + qrcId );
+        //`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[selectedType]}`
+        const qrcOptions = {
+            background: backgroundColor,
+            color: foregroundColor,
+            data: qrcData,
+            qrcId,
+            width
+        }
+
+        const { data } = await axios.post(`/api/v1.0/saveqrc`, qrcOptions);
+
+        console.log( data );
     };
 
     const setQRCDataFromChild = (data: any) => {
@@ -424,10 +436,13 @@ const QRCDesigner = () => {
                                         </section>
                                         : null
                                     }
-
                                 </div>
                             </div>
 
+                            <div className={"text-center"}>
+                                <button className={"btn btn-primary mr-5" }>Download QRC</button>
+                                <button onClick={() => saveQRC ()} className={"btn btn-primary ml-5" }>Save my QRC</button>
+                            </div>
                         </div>
                     </div>
                 }

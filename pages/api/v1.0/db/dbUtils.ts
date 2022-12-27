@@ -6,6 +6,16 @@ const { Pool } = require('pg')
 
 let pool: any;
 
+type QRCOpts = {
+    background: string,
+    color: string,
+    data: string,
+    userId: string,
+    qrcId: string,
+    qrcName: string,
+    width: number
+}
+
 type UserOpts = {
     confirmationHash: string,
     firstName: string,
@@ -14,6 +24,30 @@ type UserOpts = {
     password: string,
     createdAt: string
 }
+
+const createQRC = async ( qrc: QRCOpts ) => {
+    const qrcConfiguration = {
+        background: qrc.background,
+        color: qrc.color,
+        data: qrc.data,
+        width: qrc.width
+    }
+    return doQuery( `insert into product
+        ( 
+            "created_at",
+            "qrc_configuration",
+            "qrc_name",
+            "qrc_id",
+            "user_id"
+             )
+        values( 
+            '${moment().format('YYYY-MM-DDTH:mm:ss')}',
+            '${JSON.stringify(qrcConfiguration)}', 
+            '${qrc.qrcName}', 
+            '${qrc.qrcId}', 
+            '${qrc.userId}')`);
+}
+
 
 const createUser = async ( user: UserOpts ) => {
     return doQuery( `insert into "public"."user" 
@@ -54,6 +88,10 @@ const doQuery =   ( query: String ) => {
     doConnect ();
     logger.log( 'info', query );
     return pool.query ( query );
+}
+
+const getQRC = async( qrcId: string ) => {
+    return doQuery( `select * from product where qrc_name = '${qrcId}'` );
 }
 
 const getUser = async ( email: String ) => {
@@ -101,4 +139,20 @@ const populateUser = ( (response: any) => {
     return User;
 })
 
-export { createUser, doQuery, getUser, getUserByRegCode }
+const updateQRC = async ( qrc: QRCOpts ) => {
+    const qrcConfiguration = {
+        background: qrc.background,
+        color: qrc.color,
+        data: qrc.data,
+        width: qrc.width
+    }
+    return doQuery( `update product
+        set qrc_configuration = '${JSON.stringify(qrcConfiguration)}',
+        qrc_name = '${qrc.qrcName}',
+        updated_at='${moment().format( 'YYYY-MM-DDTH:mm:ss' )}',
+        user_id = '${qrc.userId}'
+        where qrc_id = '${qrc.qrcId}'` );
+
+}
+
+export { createQRC, createUser, doQuery, getQRC, getUser, getUserByRegCode, updateQRC }

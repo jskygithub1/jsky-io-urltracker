@@ -57,7 +57,6 @@ const QrcComponents = ({setData, qrcType}: Props) => {
         if ( !qrcData ) {
             return;
         }
-        console.log( qrcData );
         setData( qrcData );
     }, [qrcData]);
 
@@ -283,7 +282,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
     }
 
     const saveURL = (data: string) => {
-        setURL(data);
+        setURL( data);
         saveQRCData(`${data}`);
     }
 

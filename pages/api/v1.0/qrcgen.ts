@@ -38,8 +38,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         width: parseInt( <string>req.query.width ) || 100
     }
 
-    console.log( typeof options.width )
-
 
     // extra validation
     if ( options.width < 100 ) {
@@ -67,12 +65,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     //options.width=500;
 
+    console.log( '============================================')
     console.log(options);
+    console.log( '============================================')
 
 
     try {
 
-        console.log( options.data );
         if ( !options.data ) {
             console.error( 'cannot generate..' );
             throw new Error( 'No data');
