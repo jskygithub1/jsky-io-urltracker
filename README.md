@@ -28,7 +28,7 @@ https://blog.logrocket.com/handling-bootstrap-integration-next-js/
 
 Overall design
 
-QRC list
+QrcId list
 1. Web link
 1. SMS
 1. EMAIL
@@ -66,7 +66,7 @@ background=ffffff&&color=000000&width=300&margin=10
 3. logo=base64encoded?
 4. text border = solid red 4px etc?
 5. text background = colour
-6. text-pointer = true/false  (Draws tooltip type arrows towards QRC)
-7. additional image to draw attention to QRC 
+6. text-pointer = true/false  (Draws tooltip type arrows towards QrcId)
+7. additional image to draw attention to QrcId 
 
 

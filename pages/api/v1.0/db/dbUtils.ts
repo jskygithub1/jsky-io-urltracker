@@ -10,6 +10,7 @@ type QRCOpts = {
     background: string,
     color: string,
     data: string,
+    type: string,
     userId: string,
     qrcId: string,
     qrcName: string,
@@ -25,11 +26,35 @@ type UserOpts = {
     createdAt: string
 }
 
+const createMetric = async( qrc: QRCOpts, geoIp: any, ua: any ) => {
+
+    const data = {
+        qrc_id:  qrc.qrcId,
+        geoIp,
+        ua
+    }
+
+    return doQuery( `insert into metrics
+        ( 
+            "created_at",
+            "qrc_id",
+            "ua",
+            "geo_ip"
+             )
+        values( 
+            '${moment().format('YYYY-MM-DDTH:mm:ss')}',
+            '${data.qrc_id}', 
+            '${JSON.stringify( data.ua )}', 
+            '${JSON.stringify( data.geoIp )}')
+            `);
+}
+
 const createQRC = async ( qrc: QRCOpts ) => {
     const qrcConfiguration = {
         background: qrc.background,
         color: qrc.color,
         data: qrc.data,
+        type: qrc.type,
         width: qrc.width
     }
     return doQuery( `insert into product
@@ -91,7 +116,7 @@ const doQuery =   ( query: String ) => {
 }
 
 const getQRC = async( qrcId: string ) => {
-    return doQuery( `select * from product where qrc_name = '${qrcId}'` );
+    return doQuery( `select * from product where qrc_id = '${qrcId}'` );
 }
 
 const getUser = async ( email: String ) => {
@@ -144,6 +169,7 @@ const updateQRC = async ( qrc: QRCOpts ) => {
         background: qrc.background,
         color: qrc.color,
         data: qrc.data,
+        type: qrc.type,
         width: qrc.width
     }
     return doQuery( `update product
@@ -155,4 +181,4 @@ const updateQRC = async ( qrc: QRCOpts ) => {
 
 }
 
-export { createQRC, createUser, doQuery, getQRC, getUser, getUserByRegCode, updateQRC }
+export { createMetric, createQRC, createUser, doQuery, getQRC, getUser, getUserByRegCode, updateQRC }

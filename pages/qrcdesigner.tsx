@@ -110,7 +110,7 @@ const QRCDesigner = () => {
     }, [backgroundColor, foregroundColor, name, selectedType, qrcData, width]);
 
     /**
-     * Call our API and get QRC!!!!
+     * Call our API and get QrcId!!!!
      */
     const generate = async () => {
 
@@ -223,7 +223,9 @@ const QRCDesigner = () => {
             background: backgroundColor,
             color: foregroundColor,
             data: qrcData,
+            name,
             qrcId,
+            type: selectedType,
             width
         }
 
@@ -303,7 +305,7 @@ const QRCDesigner = () => {
                                         <h5 className="card-title">QRC Name</h5>
                                         <h6 className="card-subtitle mb-2 text-muted">Used to manage your QRC</h6>
                                         <input onChange={handleNameChange} className="form-control" type="text"
-                                               id="name"/>
+                                               id="name" required/>
 
                                     </div>
                                 </div>
@@ -439,12 +441,17 @@ const QRCDesigner = () => {
                                 </div>
                             </div>
 
-                            <div className={"text-center"}>
-                                <button className={"btn btn-primary mr-5" }>Download QRC</button>
-                                <button onClick={() => saveQRC ()} className={"btn btn-primary ml-5" }>Save my QRC</button>
+                            <div class={"row"}>
+                                <div className={"col-sm-12 d-flex align-items-center"}>
+
+                                        <button className={"btn btn-primary mx-5" }>Download QRC</button>
+                                        <button disabled={name ? false : true} onClick={() => saveQRC ()} className={"btn btn-primary mx-5" }>Save my QRC</button>
+
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 }
             </div>
 

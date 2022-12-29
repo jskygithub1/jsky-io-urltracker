@@ -1,7 +1,7 @@
 
 
 
-const Redirector = () => {
+const Xredirector = () => {
 
     return (
         <div>
@@ -15,7 +15,7 @@ const Redirector = () => {
  *
  * @param ctx
  */
-Redirector.getInitialProps = async (ctx: any) => {
+Xredirector.getInitialProps = async (ctx: any) => {
 
     const { getBrowserMetaData, getGEOIP }  = require( './api/v1.0/utils')
     //import {getBrowserMetaData, getGEOIP} from './api/v1.0/utils';
@@ -40,4 +40,4 @@ Redirector.getInitialProps = async (ctx: any) => {
     //return { msg: 'ok' }
 }
 
-export default Redirector
+export default Xredirector

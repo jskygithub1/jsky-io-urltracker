@@ -96,7 +96,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         console.log( `logo image: ${ximage.width} ${ximage.height}`);
 
         /*
-            Generate QRC here
+            Generate QrcId here
          */
         await QRCode.toCanvas(canvas, options.data, options);
 
@@ -112,7 +112,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const resizeFactor = ximage.width / (options.width * .25);
         console.log(resizeFactor, ximage.width, ximage.height);
 
-        // Draw logo into canvas with QRC  Center
+        // Draw logo into canvas with QrcId  Center
         // image, sourcewidth, sourceheight, x, y, destination width, destination height... Use to resize!!!!!
        /* ctx.drawImage(ximage,
             0,
@@ -146,7 +146,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             throw err
         }
 
-        // Load QRC into new Image object -- causes the onload above to execute
+        // Load QrcId into new Image object -- causes the onload above to execute
         // which draws it into our new Canvas
         img.src = data;
 

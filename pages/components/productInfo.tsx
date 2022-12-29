@@ -7,7 +7,7 @@ const ProductInfo = () => {
         <section className="py-5 border-bottom" id="features">
             <div className="container px-5 my-5">
 
-                { /* Links/QRC */}
+                { /* Links/QrcId */}
                 <div className="row gx-5">
                     <div className="col-lg-4 mb-5 mb-lg-0">
                         <div className="feature bg-primary bg-gradient text-white rounded-3 mb-3">

@@ -24,8 +24,9 @@ export default async function handler(
         data: req.body.data,
         userId: 'myuser@muser.com',
         qrcId: req.body.qrcId,
-        qrcName: req.body.qrcId,
+        qrcName: req.body.name,
         qrcConfiguration: req.body.data,
+        type: req.body.type,
         width: req.body.width
     }
     if ( response.rowCount === 0 ) {

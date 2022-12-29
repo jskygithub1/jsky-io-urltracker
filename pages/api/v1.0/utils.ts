@@ -21,7 +21,9 @@ const getIncomingIP = ( req: any ) => {
 }
 
 const getGEOIP = ( req: any ) => {
-    const ipAddress = getIncomingIP( req );
+    //const ipAddress = getIncomingIP( req );
+    // tesing
+    const ipAddress = '81.99.125.73';
     return geoIP.lookup(ipAddress);
 }
 

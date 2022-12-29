@@ -14,7 +14,7 @@ const TryIt = () => {
     };
 
     /**
-     * Call our API and get QRC!!!!
+     * Call our API and get QrcId!!!!
      */
     const generate = async () => {
         const {data} = await axios.get(`/api/v1.0/qrcgen?background=ffffff&&color=000000&width=300&margin=10`);
@@ -47,7 +47,7 @@ const TryIt = () => {
                     <div className="text-center mb-5">
 
                         <div>
-                            <Image src={generatedQRC} alt={"QRC Image"}/>
+                            <Image src={generatedQRC} alt={"QrcId Image"}/>
                         </div>
 
                     </div>

@@ -316,6 +316,20 @@ const QrcComponents = ({setData, qrcType}: Props) => {
         saveQRCData(`${data}`);
     }
 
+    const validate = () => {
+        const type = qrcType.toLowerCase()
+        switch ( type ) {
+
+            case 'url': {
+
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+
     if ( !qrcType ) {
         return <></>
     }
@@ -331,6 +345,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                             <label htmlFor="smsNumber">URL</label>
                             <input maxLength={80} onChange={(event) => saveURL(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
+                                   required
                                    type="text"
                                    id="phoneNumber"
                                    placeholder={"http://"}
