@@ -4,6 +4,12 @@
 
 }
 
+.required::after {
+	content:" *";
+	color:red;
+}
+
+
 .pointer {
 	cursor: pointer;
 }

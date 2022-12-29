@@ -6,22 +6,26 @@ import axios from "axios";
 import designerStyles from '../styles/qrcdesigner.module.css';
 import getId from '../helpers/getId';
 import QRCComponents from "./components/qrc_designer/qrcComponents";
+import {showModal} from "../helpers/modal";
+import validator from 'validator';
 
 const QRCDesigner = () => {
 
     const [allTypes, setAllTypes] = React.useState<any | {}>({});
     const [backgroundColor, setBackgroundColor] = React.useState('#ffffff');
     const [backgroundColorDisplay, setBackgroundColorDisplay] = React.useState('ffffff');
+    const [enableSave, setEnableSave] = React.useState<any | ''>(false);
     const [foregroundColor, setForegroundColor] = React.useState('#000000');
     const [foregroundColorDisplay, setForegroundColorDisplay] = React.useState('000000');
     const [generatedQRC, setGeneratedQRCValue] = useState(null);
+    const inputFileRef = React.useRef<HTMLInputElement | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [name, setName] = useState('');
     const [qrcData, setQRCData] = React.useState<any | null>(null);
     const [qrcId, setQRCId] = React.useState<any | null>(getId.getId( 8 ));
     const [selectedType, setSelectedType] = React.useState<any | null>(null);
+    const [validationError, setValidationError] = React.useState< string >(null);
     const [width, setWidth] = React.useState(100);
-    const inputFileRef = React.useRef<HTMLInputElement | null>(null);
-    const [name, setName] = useState('');
 
     const types = [
         {
@@ -237,11 +241,144 @@ const QRCDesigner = () => {
     const setQRCDataFromChild = (data: any) => {
         setQRCData(data);
         allTypes[selectedType] = data;
+        validate ( data );
         console.log(allTypes);
     };
 
     const setType = (qrcType: string) => {
         setSelectedType(qrcType);
+    };
+
+    const validate = ( data: any ) => {
+        setValidationError( null ); // be optimistic
+        setEnableSave( false );
+        const type = selectedType.toLowerCase()
+        switch ( type ) {
+
+            case 'email': {
+                if ( data.indexOf( 'TO:;') > 0 ) {
+                    setValidationError( 'Please enter a TO address.')
+                    break;
+                }
+
+                const email = data.substring( data.indexOf( 'TO:') + 3, data.indexOf( 'SUB:') - 1 );
+                if ( !validator.isEmail( email ) ) {
+                    setValidationError( 'Please enter a valid eMail address.')
+                    break;
+                }
+
+                if ( data.indexOf( 'SUB:;') > 0 ) {
+                    setValidationError( 'Please enter a subject.')
+                    break;
+                }
+
+                if ( data.indexOf( 'BODY:;') > 0 ) {
+                    setValidationError( 'Please enter a message.')
+                    break;
+                }
+
+                setEnableSave( true );
+                break;
+
+            }
+
+            case 'event': {
+                debugger;
+                if ( data.indexOf( 'SUMMARY:undefined') > 0 ) {
+                    setValidationError( 'Please enter a summary.')
+                    break;
+                }
+
+                if ( data.indexOf( 'SUMMARY:\n') > 0 ) {
+                    setValidationError( 'Please enter a summary.')
+                    break;
+                }
+
+                if ( data.indexOf( 'DTSTART:undefined') > 0 ) {
+                    setValidationError( 'Please select a start date.')
+                    break;
+                }
+
+                if ( data.indexOf( 'DTEND:undefined') > 0 ) {
+                    setValidationError( 'Please select an end date.')
+                    break;
+                }
+
+                if ( data.indexOf( 'Tundefined') > 0 ) {
+                    setValidationError( 'Please select start/end times.')
+                    break;
+                }
+
+
+
+                setEnableSave( true );
+                break;
+
+            }
+
+            case 'linkedin': {
+                const name = data.substring( 'https://www.linkedin.com/in/'.length)
+                if (  data.length - 'https://www.linkedin.com/in/'.length > 6 ) {
+                    setEnableSave( true );
+                    break;
+                }
+                setValidationError( 'Please enter a linked in profile name.')
+                break;
+            }
+
+            case 'text': {
+                console.log( data );
+                if (  data !== '' ) {
+                    setEnableSave( true );
+                    break;
+                }
+                setValidationError( 'Please enter some text.')
+                break;
+            }
+
+            case 'sms':
+            case 'phone': {
+                if (  data !== '' ) {
+                    setEnableSave( true );
+                    break;
+                }
+                setValidationError( 'Please enter some text.')
+                break;
+            }
+
+            case 'whatsapp': {
+                if ( data.length > 'https://wa.me/1234565?text=5'.length) {
+                    setEnableSave( true );
+                    break;
+                }
+                setValidationError( 'Please enter a number and message.')
+                break;
+            }
+
+            case 'url': {
+                if ( validator.isURL( data ) ) {
+                    setEnableSave( true );
+                    break;
+                }
+                setValidationError( 'Please enter a valid URL (http(s)://yoururl.com).')
+                break;
+            }
+
+            case 'youtube': {
+                if ( validator.isURL( data ) ) {
+                    setEnableSave( true );
+                    break;
+                }
+                setValidationError( 'Please enter a valid YouTube URL (http(s)://youtube.com/watch...).')
+                break;
+            }
+
+
+
+            default: {
+                break;
+            }
+        }
     };
 
     return (
@@ -289,6 +426,7 @@ const QRCDesigner = () => {
                 {selectedType &&
                     <div className={"row  mb-3 "}>
                         <div className={"col-sm-12 col-lg-12 "}>
+                            <div className={"error"}>{validationError}</div>
                             <QRCComponents setData={setQRCDataFromChild} qrcType={selectedType}/>
                         </div>
                     </div>
@@ -441,11 +579,11 @@ const QRCDesigner = () => {
                                 </div>
                             </div>
 
-                            <div class={"row"}>
+                            <div className={"row"}>
                                 <div className={"col-sm-12 d-flex align-items-center"}>
 
                                         <button className={"btn btn-primary mx-5" }>Download QRC</button>
-                                        <button disabled={name ? false : true} onClick={() => saveQRC ()} className={"btn btn-primary mx-5" }>Save my QRC</button>
+                                        <button disabled={enableSave ? false : true} onClick={() => saveQRC ()} className={"btn btn-primary mx-5" }>Save my QRC</button>
 
                                 </div>
                             </div>
@@ -456,6 +594,7 @@ const QRCDesigner = () => {
             </div>
 
             <Footer/>
+
         </div>
     )
 }

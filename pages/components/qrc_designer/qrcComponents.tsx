@@ -316,19 +316,6 @@ const QrcComponents = ({setData, qrcType}: Props) => {
         saveQRCData(`${data}`);
     }
 
-    const validate = () => {
-        const type = qrcType.toLowerCase()
-        switch ( type ) {
-
-            case 'url': {
-
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    }
 
     if ( !qrcType ) {
         return <></>
@@ -342,7 +329,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">URL Link</h5>
 
-                            <label htmlFor="smsNumber">URL</label>
+                            <label className={designerStyles.required} htmlFor="smsNumber">URL</label>
                             <input maxLength={80} onChange={(event) => saveURL(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    required
@@ -363,7 +350,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">LinkedIn profile</h5>
 
-                            <label htmlFor="smsNumber">LinkedIn page name</label>
+                            <label className={designerStyles.required} htmlFor="smsNumber">LinkedIn page name</label>
                             <input maxLength={80} onChange={(event) => saveLinkedInProfileName(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
@@ -383,7 +370,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">Text</h5>
 
-                            <label htmlFor="text">Enter your text - it could be a message</label>
+                            <label className={designerStyles.required} htmlFor="text">Enter your text - it could be a message</label>
                             <input maxLength={80} onChange={(event) => saveTextOnly(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
@@ -403,7 +390,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">Make a phone call</h5>
 
-                            <label htmlFor="smsNumber">Number</label>
+                            <label className={designerStyles.required} htmlFor="smsNumber">Number</label>
                             <input maxLength={20} onChange={(event) => savePhoneNumber(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
@@ -422,13 +409,13 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">Send SMS Message</h5>
 
-                            <label htmlFor="smsNumber">Number</label>
+                            <label className={designerStyles.required} htmlFor="smsNumber">Number</label>
                             <input maxLength={20} onChange={(event) => saveSMSNumber(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
                                    id="smsNumber"
                                    value={smsNumber}/>
-                            <label htmlFor="smsMessage">Message</label>
+                            <label className={designerStyles.required} htmlFor="smsMessage">Message</label>
                             <input maxLength={140} onChange={(event) => saveSMSMessage(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
@@ -446,13 +433,13 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">Send WhatsApp Message</h5>
 
-                            <label htmlFor="whatsAppNumber">Number</label>
+                            <label className={designerStyles.required} htmlFor="whatsAppNumber">Number</label>
                             <input maxLength={20} onChange={(event) => saveWhatsAppNumber(event.target.value)}
-                                   className={designerStyles.width_90 + " mb-3 form-control"}
+                                   className={`${designerStyles.width_90}  mb-3 form-control`}
                                    type="text"
                                    id="whatsAppNumber"
                                    value={whatsAppNumber}/>
-                            <label htmlFor="whatsAppMessage">Message</label>
+                            <label className={designerStyles.required} htmlFor="whatsAppMessage">Message</label>
                             <input maxLength={140} onChange={(event) => saveWhatsAppMessage(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
@@ -470,7 +457,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">YouTube Video</h5>
 
-                            <label htmlFor="youTubeUrl">YouTube URL</label>
+                            <label className={designerStyles.required} htmlFor="youTubeUrl">YouTube URL</label>
                             <input maxLength={80} onChange={(event) => saveYouTubeURL(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
@@ -488,19 +475,19 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">Send eMail</h5>
 
-                            <label htmlFor="emailAddress">To</label>
+                            <label className={designerStyles.required} htmlFor="emailAddress">To</label>
                             <input maxLength={80} onChange={(event) => saveEmailAddress(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
                                    id="emailAddress"
                                    value={emailAddress}/>
-                            <label htmlFor="emailSubject">Subject</label>
+                            <label className={designerStyles.required} htmlFor="emailSubject">Subject</label>
                             <input maxLength={140} onChange={(event) => saveEmailSubject(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
                                    id="emailSubject"
                                    value={emailSubject}/>
-                            <label htmlFor="emailMessage">Message</label>
+                            <label className={designerStyles.required} htmlFor="emailMessage">Message</label>
                             <textarea onChange={(event) => saveEmailMessage(event.target.value)}
                                 //onKeyUp={(event) => saveEmailMessage('xxx')}
                                       className={designerStyles.width_90 + " mb-3 form-control"}
@@ -518,31 +505,31 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">Event</h5>
 
-                            <label htmlFor="eventSummary">Summary</label>
+                            <label className={designerStyles.required} htmlFor="eventSummary">Summary</label>
                             <input maxLength={80} onChange={(event) => saveEventSummary(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
                                    id="eventSummary"
                                    value={eventSummary}/>
-                            <label htmlFor="eventStartDate">Start date</label>
+                            <label className={designerStyles.required} htmlFor="eventStartDate">Start date</label>
                             <input maxLength={10} onChange={(event) => saveEventStartDate(event.target.value)}
                                    className={designerStyles.width_20 + " mb-3 form-control pointer"}
                                    type="date"
                                    id="eventStartDate"
                                    value={eventStartDate}/>
-                            <label htmlFor="eventStartTime">Start time</label>
+                            <label className={designerStyles.required} htmlFor="eventStartTime">Start time</label>
                             <input maxLength={10} onChange={(event) => saveEventStartTime(event.target.value)}
                                    className={designerStyles.width_20 + " mb-3 form-control pointer"}
                                    type="time"
                                    id="eventStartTime"
                                    value={eventStartTime}/>
-                            <label htmlFor="eventEndDate">End date</label>
+                            <label className={designerStyles.required} htmlFor="eventEndDate">End date</label>
                             <input maxLength={10} onChange={(event) => saveEventEndDate(event.target.value)}
                                    className={designerStyles.width_20 + " mb-3 form-control pointer"}
                                    type="date"
                                    id="eventEndDate"
                                    value={eventEndDate}/>
-                            <label htmlFor="eventEndTime">End time</label>
+                            <label className={designerStyles.required} htmlFor="eventEndTime">End time</label>
                             <input maxLength={10} onChange={(event) => saveEventEndTime(event.target.value)}
                                    className={designerStyles.width_20 + " mb-3 form-control pointer"}
                                    type="time"
@@ -561,7 +548,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">Contact</h5>
 
-                            <label htmlFor="contactFirstName">First name</label>
+                            <label className={designerStyles.required} htmlFor="contactFirstName">First name</label>
                             <input maxLength={80} onChange={(event) => saveContactFirstName(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
@@ -657,13 +644,13 @@ const QrcComponents = ({setData, qrcType}: Props) => {
                         <div className="card-body">
                             <h5 className="card-title">WIFI connection</h5>
 
-                            <label htmlFor="ssid">SSID</label>
+                            <label className={designerStyles.required} htmlFor="ssid">SSID</label>
                             <input maxLength={20} onChange={(event) => saveSSIDId(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
                                    id="ssid"
                                    value={ssid}/>
-                            <label htmlFor="ssidPassword">Password</label>
+                            <label className={designerStyles.required} htmlFor="ssidPassword">Password</label>
                             <input maxLength={20} onChange={(event) => saveSSIDPassword(event.target.value)}
                                    className={designerStyles.width_90 + " mb-3 form-control"}
                                    type="text"
@@ -683,6 +670,7 @@ const QrcComponents = ({setData, qrcType}: Props) => {
 
         </div>
     )
+
 }
 
 export default QrcComponents;

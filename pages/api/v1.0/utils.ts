@@ -10,7 +10,6 @@ const  getBrowserMetaData = ( req: any ) => {
 const getIncomingIP = ( req: any ) => {
     let ipAddress;
 
-
     if (req.headers["x-forwarded-for"]) {
         ipAddress = req.headers["x-forwarded-for"].split(',')[0]
     } else {
