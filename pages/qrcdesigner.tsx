@@ -245,10 +245,12 @@ const QRCDesigner = () => {
             width
         }
 
-        const { data } = await axios.post(`/api/v1.0/saveqrc`, qrcOptions);
+        //const { data } = await axios.post(`/api/v1.0/saveqrc`, qrcOptions);
 
-        console.log( data );
+       // console.log( data );
         alert( 'QRC Saved!');
+        showModal( 'a','a','a');
+
     };
 
     const setQRCDataFromChild = (data: any) => {
@@ -651,6 +653,8 @@ console.log( `<${name}>`)
 
                 }
             </div>
+
+
 
             <Footer/>
 
