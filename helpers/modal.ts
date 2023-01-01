@@ -1,4 +1,3 @@
-
 const modalHTML = `<div   class="modal fade"
                 id="jskyModal"
                 aria-labelledby="jskyModalLabel"
@@ -8,7 +7,7 @@ const modalHTML = `<div   class="modal fade"
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="jskyModalLabel">
-                                Oops!
+                                [jsky_modal_title]
                             </h5>
                             <button
                                 type="button"
@@ -18,7 +17,7 @@ const modalHTML = `<div   class="modal fade"
                             ></button>
                         </div>
                         <div class="modal-body">
-                            xxxxxxxxxxxThe attempt to register has failed because this email address is already in use.
+                            [jsky_modal_body]
                         </div>
 
                         <div class="modal-footer">
@@ -28,18 +27,27 @@ const modalHTML = `<div   class="modal fade"
                 </div>
             </div>`
 
-const showModal = ( id: String, title: String, message: String ) => {
-    const { Modal } = require("bootstrap");
-debugger;
+const showModal = (title: String, body: String) => {
+    const {Modal} = require("bootstrap");
+    debugger;
 
-    const modalDiv = document.createElement( 'div' );
+    const modalDiv = document.createElement('div');
+    modalDiv.id = 'jskyModalParent';
     modalDiv.innerHTML = modalHTML;
+    modalDiv.innerHTML = modalDiv.innerHTML.replace('[jsky_modal_title]', title);
+    modalDiv.innerHTML = modalDiv.innerHTML.replace('[jsky_modal_body]', body);
 
-    document.body.append( modalDiv );
+    document.body.append(modalDiv);
 
+    const myModal = new Modal('#jskyModal');
+    const myModalEl = document.getElementById('jskyModal');
+    myModal.show();
 
-        const myModal = new Modal( '#jskyModal'  );
-        myModal.show();
+    // @ts-ignore
+    myModalEl.addEventListener('hidden.bs.modal', event =>  {
+        // remove modal from DOM
+        document.getElementById( 'jskyModalParent' ).remove ();
+    });
 
 
 }

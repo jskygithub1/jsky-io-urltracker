@@ -248,8 +248,7 @@ const QRCDesigner = () => {
         //const { data } = await axios.post(`/api/v1.0/saveqrc`, qrcOptions);
 
        // console.log( data );
-        alert( 'QRC Saved!');
-        showModal( 'a','a','a');
+        showModal( 'QRC Generator',`Your QRC configuration "${name}" has been saved.`);
 
     };
 
