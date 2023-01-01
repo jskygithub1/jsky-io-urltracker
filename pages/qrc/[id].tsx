@@ -58,7 +58,7 @@ const QrcId = () => {
     )
 }
 
-export async function getServerSideProps( context ) {
+export async function getServerSideProps( context: object ) {
     logger.log( 'info', 'In server side props...' );
     //http://localhost:3000/qrc/4YuafITz
     console.log( context.query );
