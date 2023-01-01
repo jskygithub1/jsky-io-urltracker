@@ -10,12 +10,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.30",
     "@popperjs/core": "^2.11.6",
     "@types/validator": "^13.7.10",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "bootstrap-icons": "^1.9.1",
-    "canvas": "^2.11.0",
     "formidable": "^2.0.1",
     "geoip-lite": "^1.4.6",
     "moment": "^2.29.4",
