@@ -245,8 +245,6 @@ const QRCDesigner = () => {
             width
         }
 
-        //setUrlRedirect ( qrcOptions );
-
         const { data } = await axios.post(`/api/v1.0/saveqrc`, qrcOptions);
 
         console.log( data );
@@ -264,26 +262,6 @@ const QRCDesigner = () => {
         setValidationError( null ); // be optimistic
         setEnableSave( false );
         setSelectedType(qrcType);
-    };
-
-    /**
-     * Save target URL if required.
-     * @param qrcOptions
-     */
-    const setUrlRedirect = ( qrcOptions: object ) => {
-
-        switch ( selectedType ) {
-            case 'linkedin':
-            case 'url':
-            case 'youtube': {
-                qrcOptions.targetURL = `${window.location.protocol}//${window.location.host}/qrc/${qrcId}`;
-                break;
-            }
-
-            default: {
-                break
-            }
-        }
     };
 
     const validate = ( data: any ) => {
