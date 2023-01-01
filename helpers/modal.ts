@@ -27,7 +27,7 @@ const modalHTML = `<div   class="modal fade"
                 </div>
             </div>`
 
-const showModal = (title: String, body: String) => {
+const showModal = (title: string, body: string) => {
     const {Modal} = require("bootstrap");
     debugger;
 
