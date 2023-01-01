@@ -14,6 +14,7 @@ type QRCOpts = {
     userId: string,
     qrcId: string,
     qrcName: string,
+    targetURL: string,
     width: number
 }
 
