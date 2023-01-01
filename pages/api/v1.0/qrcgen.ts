@@ -77,8 +77,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             throw new Error( 'No data');
         }
 
-        //const {createCanvas, Image, loadImage} = require('canvas')
-        const {createCanvas, Image, loadImage} = require('@napi-rs/canvas');
+        const {createCanvas, Image, loadImage} = require('canvas')
+        //const {createCanvas, Image, loadImage} = require('@napi-rs/canvas');
         // @ts-ignore
         const canvas = createCanvas(options.width * 1.5, options.width * 1.5)
         const ctx = canvas.getContext('2d');
