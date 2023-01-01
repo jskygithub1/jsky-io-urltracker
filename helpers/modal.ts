@@ -46,7 +46,10 @@ const showModal = (title: string, body: string) => {
     // @ts-ignore
     myModalEl.addEventListener('hidden.bs.modal', event =>  {
         // remove modal from DOM
-        document.getElementById( 'jskyModalParent' ).remove ();
+        const el = document.getElementById( 'jskyModalParent' );
+        if ( el ) {
+            document.getElementById('jskyModalParent').remove();
+        }
     });
 
 
