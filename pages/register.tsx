@@ -27,7 +27,7 @@ const Register = () => {
             const response = await axios.post('/api/v1.0/register', data);
             console.log(response);
         } catch ( e: any ) {
-            showModal('#registerErrorUserExists', 'title', 'message..' )
+            showModal('title', 'message..' )
         }
     }
 
