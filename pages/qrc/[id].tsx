@@ -12,7 +12,8 @@ const QrcId = () => {
     const router = useRouter();
     const [error, setError ] = React.useState<any | ''>(null);
 
-    useEffect( () => {
+    // leave as an example!
+    /*useEffect( () => {
         if (Object.keys(router.query).length > 0) {
 
             const callGetQRC = async () => {
@@ -36,7 +37,7 @@ const QrcId = () => {
 
             } );
         }
-    },[ router.query.id ])
+    },[ router.query.id ])*/
 
     // @ts-ignore
     // @ts-ignore
@@ -58,7 +59,7 @@ const QrcId = () => {
     )
 }
 
-export async function getServerSideProps( context: object ) {
+export async function getServerSideProps( context: any ) {
     logger.log( 'info', 'In server side props...' );
     //http://localhost:3000/qrc/4YuafITz
     console.log( context.query );
