@@ -47,7 +47,7 @@ const QrcId = () => {
 
             {error &&
                 <>
-                <h3 class={"error"}>{error}</h3>
+                <h3 className={"error"}>{error}</h3>
                 </>
             }
 
