@@ -48,7 +48,7 @@ const showModal = (title: string, body: string) => {
         // remove modal from DOM
         const el = document.getElementById( 'jskyModalParent' );
         if ( el ) {
-            document.getElementById('jskyModalParent').remove();
+            el.remove();
         }
     });
 
