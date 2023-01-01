@@ -63,6 +63,7 @@ const createQRC = async ( qrc: QRCOpts ) => {
             "qrc_configuration",
             "qrc_name",
             "qrc_id",
+            "target_url",
             "user_id"
              )
         values( 
@@ -70,6 +71,7 @@ const createQRC = async ( qrc: QRCOpts ) => {
             '${JSON.stringify(qrcConfiguration)}', 
             '${qrc.qrcName}', 
             '${qrc.qrcId}', 
+            '${qrc.targetURL}', 
             '${qrc.userId}')`);
 }
 
@@ -175,6 +177,7 @@ const updateQRC = async ( qrc: QRCOpts ) => {
     return doQuery( `update product
         set qrc_configuration = '${JSON.stringify(qrcConfiguration)}',
         qrc_name = '${qrc.qrcName}',
+        target_url = '${qrc.targetURL}',
         updated_at='${moment().format( 'YYYY-MM-DDTH:mm:ss' )}',
         user_id = '${qrc.userId}'
         where qrc_id = '${qrc.qrcId}'` );

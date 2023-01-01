@@ -26,6 +26,7 @@ export default async function handler(
         qrcId: req.body.qrcId,
         qrcName: req.body.name,
         qrcConfiguration: req.body.data,
+        targetURL: req.body.targetURL,
         type: req.body.type,
         width: req.body.width
     }

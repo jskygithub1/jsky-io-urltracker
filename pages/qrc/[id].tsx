@@ -2,8 +2,10 @@ import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header                       from '../components/header';
 import Footer                       from '../components/footer';
+import logger from '../../helpers/logger';
 import { useRouter }                from 'next/router';
 import axios                        from 'axios';
+import { getQRC } from '../api/v1.0/db/dbUtils'
 
 const QrcId = () => {
 
@@ -25,7 +27,12 @@ const QrcId = () => {
             }
 
             callGetQRC ().catch( e => {
-                setError( e.message)
+                if ( e.response.status === 404 ) {
+                    setError( 'This QRC code does not exist.' );
+                } else {
+                    setError( e.message)
+                }
+
 
             } );
         }
@@ -37,10 +44,10 @@ const QrcId = () => {
     return (
         <div>
             <Header />
-            sdfsdfsdf
+
             {error &&
                 <>
-                <h1>{error}</h1>
+                <h3 class={"error"}>{error}</h3>
                 </>
             }
 
@@ -49,6 +56,28 @@ const QrcId = () => {
             <Footer />
         </div>
     )
+}
+
+export async function getServerSideProps( context ) {
+    logger.log( 'info', 'In server side props...' );
+    //http://localhost:3000/qrc/4YuafITz
+    console.log( context.query );
+    const qrcId = context.query.id;
+    const response = await getQRC( qrcId );
+    if ( response.rowCount === 0 ) {
+        console.log( 'it does not exist.');
+        //context.res.end()
+    } else {
+        console.log( 'it exists not exist.');
+        console.log( response.rows[ 0 ].qrc_configuration.data );
+        context.res.writeHead(302, {Location: response.rows[ 0 ].qrc_configuration.data})
+        context.res.end()
+    }
+    const data = {
+
+    }
+
+    return { props: data };
 }
 
 export default QrcId;

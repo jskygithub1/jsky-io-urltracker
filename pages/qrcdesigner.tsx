@@ -118,6 +118,9 @@ const QRCDesigner = () => {
      */
     const generate = async () => {
 
+        if ( !qrcData ) {
+            return
+        }
         // strip out leading '#' from colours
         const bgColor = backgroundColor ? backgroundColor.substring(1) : backgroundColor;
         const fgColor = foregroundColor ? foregroundColor.substring(1) : foregroundColor;
@@ -171,6 +174,14 @@ const QRCDesigner = () => {
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
+        console.log( event.target.value );
+        // react does ot update state immediately.
+        setTimeout(() => {
+            console.log( 'now..' );
+            console.log( name );
+            validate ( qrcData );
+        }, 2000 )
+
     };
 
     /**
@@ -221,7 +232,8 @@ const QRCDesigner = () => {
     };
 
     const saveQRC = async () => {
-        alert( 'save ' + qrcId );
+        debugger
+
         //`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[selectedType]}`
         const qrcOptions = {
             background: backgroundColor,
@@ -233,9 +245,12 @@ const QRCDesigner = () => {
             width
         }
 
+        //setUrlRedirect ( qrcOptions );
+
         const { data } = await axios.post(`/api/v1.0/saveqrc`, qrcOptions);
 
         console.log( data );
+        alert( 'QRC Saved!');
     };
 
     const setQRCDataFromChild = (data: any) => {
@@ -246,14 +261,48 @@ const QRCDesigner = () => {
     };
 
     const setType = (qrcType: string) => {
+        setValidationError( null ); // be optimistic
+        setEnableSave( false );
         setSelectedType(qrcType);
     };
 
+    /**
+     * Save target URL if required.
+     * @param qrcOptions
+     */
+    const setUrlRedirect = ( qrcOptions: object ) => {
+
+        switch ( selectedType ) {
+            case 'linkedin':
+            case 'url':
+            case 'youtube': {
+                qrcOptions.targetURL = `${window.location.protocol}//${window.location.host}/qrc/${qrcId}`;
+                break;
+            }
+
+            default: {
+                break
+            }
+        }
+    };
+
     const validate = ( data: any ) => {
+
         setValidationError( null ); // be optimistic
         setEnableSave( false );
         const type = selectedType.toLowerCase()
+
         switch ( type ) {
+
+            case 'contact': {
+
+                if (  data.indexOf( 'FN: undefined') < 0  ) {
+                    setEnableSave( true );
+                    break;
+                }
+                setValidationError( 'Please enter a contact first name.')
+                break;
+            }
 
             case 'email': {
                 if ( data.indexOf( 'TO:;') > 0 ) {
@@ -283,7 +332,7 @@ const QRCDesigner = () => {
             }
 
             case 'event': {
-                debugger;
+
                 if ( data.indexOf( 'SUMMARY:undefined') > 0 ) {
                     setValidationError( 'Please enter a summary.')
                     break;
@@ -308,8 +357,6 @@ const QRCDesigner = () => {
                     setValidationError( 'Please select start/end times.')
                     break;
                 }
-
-
 
                 setEnableSave( true );
                 break;
@@ -355,6 +402,33 @@ const QRCDesigner = () => {
                 break;
             }
 
+            case 'wifi': {
+
+                if (  data.indexOf( 'S:;') > 0  ) {
+                    setValidationError( 'Please enter a network name (SSID).')
+                    break;
+                }
+
+                if (  data.indexOf( 'S:undefined') > 0  ) {
+                    setValidationError( 'Please enter a network name (SSID).')
+                    break;
+                }
+
+                if (  data.indexOf( 'P:;') > 0  ) {
+                    setValidationError( 'Please enter a password.')
+                    break;
+                }
+
+                if (  data.indexOf( 'P:undefined') > 0  ) {
+                    setValidationError( 'Please enter a password.')
+                    break;
+                }
+
+                setEnableSave( true );
+
+                break;
+            }
+
             case 'url': {
                 if ( validator.isURL( data ) ) {
                     setEnableSave( true );
@@ -373,12 +447,19 @@ const QRCDesigner = () => {
                 break;
             }
 
-
-
             default: {
                 break;
             }
+
         }
+
+console.log( `<${name}>`)
+        if ( name.trim () === '' ) {
+            setValidationError( 'Please enter a name for this QRC.');
+            setEnableSave( false );
+        }
+        // now, ensure a name has been entered.
+        console.log( name );
     };
 
     return (
