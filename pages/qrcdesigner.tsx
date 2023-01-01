@@ -24,7 +24,7 @@ const QRCDesigner = () => {
     const [qrcData, setQRCData] = React.useState<any | null>(null);
     const [qrcId, setQRCId] = React.useState<any | null>(getId.getId( 8 ));
     const [selectedType, setSelectedType] = React.useState<any | null>(null);
-    const [validationError, setValidationError] = React.useState< string >(null);
+    const [validationError, setValidationError] = React.useState< any | null >(null);
     const [width, setWidth] = React.useState(100);
 
     const types = [
