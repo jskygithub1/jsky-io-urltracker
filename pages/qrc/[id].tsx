@@ -5,7 +5,8 @@ import Footer                       from '../components/footer';
 import logger from '../../helpers/logger';
 import { useRouter }                from 'next/router';
 import axios                        from 'axios';
-import { getQRC } from '../api/v1.0/db/dbUtils'
+import { createMetric, getQRC } from '../api/v1.0/db/dbUtils';
+import { getBrowserMetaData, getGEOIP } from "../api/v1.0/utils";
 
 const QrcId = () => {
 
@@ -69,8 +70,17 @@ export async function getServerSideProps( context: any ) {
         console.log( 'it does not exist.');
         //context.res.end()
     } else {
-        console.log( 'it exists not exist.');
-        console.log( response.rows[ 0 ].qrc_configuration.data );
+        const { data }  = await getGEOIP( context.req );
+        const geoIP = data;
+        console.log( geoIP );
+        console.log( '*********************************');
+        const qrcConfig = response.rows[ 0 ].qrc_configuration;
+        const ua = getBrowserMetaData( context.req );
+        console.log( ua );
+        console.log( '*********************************');
+        // add id as a convenience
+        qrcConfig.qrcId = qrcId;
+        await createMetric( qrcConfig, geoIP, ua );
         context.res.writeHead(302, {Location: response.rows[ 0 ].qrc_configuration.data})
         context.res.end()
     }

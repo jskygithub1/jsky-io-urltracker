@@ -1,7 +1,8 @@
+import axios from 'axios';
 // @ts-ignore
 import browserParser from 'ua-parser-js';
 // @ts-ignore
-import geoIP from 'geoip-lite';
+
 
 const  getBrowserMetaData = ( req: any ) => {
     return browserParser(req.headers['user-agent']);
@@ -21,9 +22,11 @@ const getIncomingIP = ( req: any ) => {
 
 const getGEOIP = ( req: any ) => {
     //const ipAddress = getIncomingIP( req );
-    // tesing
+    // testing
+
     const ipAddress = '81.99.125.73';
-    return geoIP.lookup(ipAddress);
+    const url = `https://api.bigdatacloud.net/data/ip-geolocation?ip=${ipAddress}&localityLanguage=en&key=${process.env.BDC_API_KEY}`
+    return axios.get( url );
 }
 
 /**
