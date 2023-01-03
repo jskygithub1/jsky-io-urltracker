@@ -2,7 +2,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 
 import { createQRC, getQRC, updateQRC } from "./db/dbUtils";
-import logger from '../../../helpers/logger';
+import logger from '../../../lib/logger';
 
 type Data = {
     response: any

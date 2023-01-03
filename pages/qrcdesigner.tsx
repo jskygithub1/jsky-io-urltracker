@@ -4,9 +4,9 @@ import Header from './components/header';
 import Footer from './components/footer';
 import axios from "axios";
 import designerStyles from '../styles/qrcdesigner.module.css';
-import getId from '../helpers/getId';
+import getId from '../lib/getId';
 import QRCComponents from "./components/qrc_designer/qrcComponents";
-import {showModal} from "../helpers/modal";
+import {showModal} from "../lib/modal";
 import validator from 'validator';
 
 const QRCDesigner = () => {
@@ -22,7 +22,7 @@ const QRCDesigner = () => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [name, setName] = useState('');
     const [qrcData, setQRCData] = React.useState<any | null>(null);
-    const [qrcId, setQRCId] = React.useState<any | null>(getId.getId( 8 ));
+    const [qrcId, setQRCId] = React.useState<any | null>( null );
     const [selectedType, setSelectedType] = React.useState<any | null>(null);
     const [validationError, setValidationError] = React.useState< any | null >(null);
     const [width, setWidth] = React.useState(100);
@@ -125,14 +125,32 @@ const QRCDesigner = () => {
         const bgColor = backgroundColor ? backgroundColor.substring(1) : backgroundColor;
         const fgColor = foregroundColor ? foregroundColor.substring(1) : foregroundColor;
 
-        //const parms = `?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${qrcData}`;
-
-        const parms = encodeURI(`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[selectedType]}`);
+        let dataForQRC = getData ( qrcId );
+        console.log( dataForQRC )
+        const parms = encodeURI(`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${dataForQRC  }&id=${qrcId}`);
         console.log(parms);
         console.log( '----------- ')
         const { data } = await axios.get(`/api/v1.0/qrcgen${parms}`);
         setGeneratedQRCValue(data);
 
+    }
+
+    const getData = ( qrcId: string) => {
+        let data = allTypes[selectedType];
+        switch ( selectedType ) {
+            case 'linkedin':
+            case 'url':
+            case 'youtube': {
+                data = `${window.location.protocol}//${window.location.host}/qrc/${qrcId}`
+                data = `https://jsky.io/qrc/${qrcId}`
+            }
+
+            default: {
+                break;
+            }
+        }
+
+        return data;
     }
 
     /**
@@ -177,10 +195,8 @@ const QRCDesigner = () => {
         console.log( event.target.value );
         // react does ot update state immediately.
         setTimeout(() => {
-            console.log( 'now..' );
-            console.log( name );
             validate ( qrcData );
-        }, 2000 )
+        }, 250 )
 
     };
 
@@ -232,7 +248,6 @@ const QRCDesigner = () => {
     };
 
     const saveQRC = async () => {
-        debugger
 
         //`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${allTypes[selectedType]}`
         const qrcOptions = {
@@ -245,7 +260,7 @@ const QRCDesigner = () => {
             width
         }
 
-        //const { data } = await axios.post(`/api/v1.0/saveqrc`, qrcOptions);
+        const { data } = await axios.post(`/api/v1.0/saveqrc`, qrcOptions);
 
        // console.log( data );
         showModal( 'QRC Generator',`Your QRC configuration "${name}" has been saved.`);
@@ -260,6 +275,7 @@ const QRCDesigner = () => {
     };
 
     const setType = (qrcType: string) => {
+        setQRCId( getId( 8 ) );
         setValidationError( null ); // be optimistic
         setEnableSave( false );
         setSelectedType(qrcType);

@@ -11,4 +11,4 @@ const getId = ( iterations =6 )=> {
     return result;
 }
 
-export default { getId };
+export default getId;

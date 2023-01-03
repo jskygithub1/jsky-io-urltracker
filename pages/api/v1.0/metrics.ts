@@ -2,7 +2,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 
 import { createMetric } from "./db/dbUtils";
-import logger from '../../../helpers/logger';
+import logger from '../../../lib/logger';
 
 type Data = {
     response: any

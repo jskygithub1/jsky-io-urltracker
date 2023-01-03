@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header                       from '../components/header';
 import Footer                       from '../components/footer';
-import logger from '../../helpers/logger';
+import logger from '../../lib/logger';
 import { useRouter }                from 'next/router';
 import axios                        from 'axios';
 import { createMetric, getQRC } from '../api/v1.0/db/dbUtils';

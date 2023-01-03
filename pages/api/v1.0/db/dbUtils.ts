@@ -1,5 +1,5 @@
 import moment from "moment/moment";
-import logger from "../../../../helpers/logger";
+import logger from "../../../../lib/logger";
 import User from '../../models/user';
 
 const { Pool } = require('pg')

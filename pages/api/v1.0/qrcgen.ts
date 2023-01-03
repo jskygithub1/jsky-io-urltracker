@@ -15,6 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     interface optionsIF {
         color?: Object;
         data?: string | null;
+        id: string;
         margin?: number;
         text?: string | null;
         textBackground?: string | null;
@@ -30,6 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             light: req.query.background ? `#${req.query.background}` : '#000000',
         },
         data: req.query.data as string || null,
+        id: req.query.id as string,
         margin: parseInt( <string>req.query.margin )  || 4,
         text: req.query.text as string || null,
         textBackground: req.query.textBackground as string || null,
@@ -47,16 +49,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     // @ts-ignore
     options.width += parseInt( options.margin );
-
-    const uniqueId = getId ();
-    console.log( `unique id is: ${ uniqueId }` );
-
+    console.log( options.id );
     const sendResponse = ( id: string | any, image: string | any[] ) => {
 
         res.writeHead(200, {
             'Content-Type': 'image/png',
             'Content-Length': image.length,
-            'jskyio-unique-id': uniqueId
+            'jskyio-unique-id': options.id
         });
 
         res.end( image );
