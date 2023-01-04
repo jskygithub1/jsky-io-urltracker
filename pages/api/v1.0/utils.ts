@@ -21,10 +21,10 @@ const getIncomingIP = ( req: any ) => {
 }
 
 const getGEOIP = ( req: any ) => {
-    //const ipAddress = getIncomingIP( req );
+    const ipAddress = getIncomingIP( req );
     // testing
 
-    const ipAddress = '81.99.125.73';
+    //const ipAddress = '81.99.125.73';
     const url = `https://api.bigdatacloud.net/data/ip-geolocation?ip=${ipAddress}&localityLanguage=en&key=${process.env.BDC_API_KEY}`
     return axios.get( url );
 }
