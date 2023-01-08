@@ -118,8 +118,39 @@ const doQuery =   ( query: String ) => {
     return pool.query ( query );
 }
 
+const getMetricsForUser = ( userId: string ) => {
+    /*
+
+    Only scanned items
+    SELECT p.user_id, m.qrc_id, m.ua
+        FROM product p
+        INNER JOIN metrics m
+        ON p.qrc_id = m.qrc_id and p.user_id = 'jamesskyoung@outlook.com';
+
+     */
+
+    /*
+    all items
+    SELECT p.user_id, p.qrc_id, m.qrc_id, m.ua
+        FROM product p
+        left outer JOIN metrics m
+        ON p.qrc_id = m.qrc_id and p.user_id = 'jamesskyoung@outlook.com';
+     */
+}
+
 const getQRC = async( qrcId: string ) => {
     return doQuery( `select * from product where qrc_id = '${qrcId}'` );
+}
+
+const getQRCForUser = async( userId: string ) => {
+    return doQuery( `select * from product where user_id = '${userId}'` );
+}
+
+const getQRCForUserCounts = async( userId: string ) => {
+    return doQuery( `SELECT p.qrc_name, m.qrc_id, count(p.qrc_name), max( m.created_at)
+        FROM product p
+        INNER JOIN metrics m
+        ON p.qrc_id = m.qrc_id and p.user_id = '${userId}' group by p.qrc_name, m.qrc_id;` );
 }
 
 const getUser = async ( email: String ) => {
@@ -185,4 +216,16 @@ const updateQRC = async ( qrc: QRCOpts ) => {
 
 }
 
-export { createMetric, createQRC, createUser, doQuery, getQRC, getUser, getUserByRegCode, updateQRC }
+export {
+    createMetric,
+    createQRC,
+    createUser,
+    doQuery,
+    getMetricsForUser,
+    getQRC,
+    getQRCForUser,
+    getQRCForUserCounts,
+    getUser,
+    getUserByRegCode,
+    updateQRC
+}

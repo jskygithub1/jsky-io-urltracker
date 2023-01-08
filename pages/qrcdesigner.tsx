@@ -20,6 +20,7 @@ const QRCDesigner = () => {
     const [generatedQRC, setGeneratedQRCValue] = useState(null);
     const inputFileRef = React.useRef<HTMLInputElement | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [margin, setMargin] = React.useState(0);
     const [name, setName] = useState('');
     const [qrcData, setQRCData] = React.useState<any | null>(null);
     const [qrcId, setQRCId] = React.useState<any | null>( null );
@@ -111,7 +112,7 @@ const QRCDesigner = () => {
     useEffect(() => {
         generate().then(() => {
         });
-    }, [backgroundColor, foregroundColor, name, selectedType, qrcData, width]);
+    }, [backgroundColor, foregroundColor, margin, name, selectedType, qrcData, width]);
 
     /**
      * Call our API and get QrcId!!!!
@@ -127,7 +128,7 @@ const QRCDesigner = () => {
 
         let dataForQRC = getData ( qrcId );
         console.log( dataForQRC )
-        const parms = encodeURI(`?background=${bgColor}&color=${fgColor}&width=${width}&margin=2&data=${dataForQRC  }&id=${qrcId}`);
+        const parms = encodeURI(`?background=${bgColor}&color=${fgColor}&width=${width}&margin=${margin}&data=${dataForQRC  }&id=${qrcId}`);
         console.log(parms);
         console.log( '----------- ')
         const { data } = await axios.get(`/api/v1.0/qrcgen${parms}`);
@@ -137,6 +138,7 @@ const QRCDesigner = () => {
 
     const getData = ( qrcId: string) => {
         let data = allTypes[selectedType];
+        // old school way   direct links --> return data;
         switch ( selectedType ) {
             case 'linkedin':
             case 'url':
@@ -188,6 +190,25 @@ const QRCDesigner = () => {
     const handleForegroundColorChangeDisplay = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setForegroundColor(`#${event.target.value}`);
         setForegroundColorDisplay(event.target.value);
+    };
+
+    /**
+     * Regen on change
+     * @param event
+     */
+    const handleMargin = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const margin = parseInt(event.target.value);
+        if (isNaN(margin)) {
+            setMargin(10);
+            return;
+        }
+alert( margin );
+        setMargin(margin);
+
+        if (margin < 1) {
+            return;
+        }
+
     };
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -596,14 +617,16 @@ console.log( `<${name}>`)
                                         <h6 className="card-subtitle mb-2 text-muted">
                                             Margin around </h6>
                                         <div className="input-group">
-                                            <input maxLength={3} onChange={handleWidth}
-                                                   className={width < 100 ? 'is-invalid' : '' + "form-control"}
+                                            <input maxLength={3} onChange={handleMargin}
+                                                   className={margin < 0 ? 'is-invalid' : '' + "form-control"}
                                                    type="text"
                                                    id="width"
-                                                   value={width}/>
+                                                   value={margin}/>
+                                            <input onChange={handleMargin} type="number" value={margin} min="0" max="50"
+                                                   step="5"/>
                                             <span className="input-group-text">px</span>
                                             <div className="invalid-feedback">
-                                                Please enter a width between 100 and 999.
+                                                Please enter a margin between 1 and 50.
                                             </div>
                                         </div>
 

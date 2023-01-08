@@ -1,0 +1,29 @@
+.cardCount {
+	text-align : center;
+
+
+}
+
+.count {
+	align-items     : center;
+	color: darkcyan;
+	display         : flex; /* or inline-flex */
+	font-size       : 4em;
+	justify-content : center;
+
+
+}
+
+.countCircle {
+	align-items     : center;
+	border-radius   : 50%;
+	border-color    : darkcyan;
+	border-width    : 10px;
+	border-style    : solid;
+	display         : flex; /* or inline-flex */
+	height          : 100px;
+	font-size       : 2em;
+	justify-content : center;
+	margin-left     : 30px;
+	width           : 100px;
+}
